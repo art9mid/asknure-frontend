@@ -2,15 +2,19 @@ import { StyleSheet } from 'react-native';
 import AppStyles from '../../AppStyles';
 
 const dynamicStyles = (colorScheme) => {
+  const colorSet = AppStyles.colorSet[colorScheme];
   return new StyleSheet.create({
     tabBarContainer: {
-      flexDirection: 'row',
-      backgroundColor: AppStyles.colorSet[colorScheme].tabBarColor,
+      backgroundColor: colorSet.whiteBackgroundColor,
+    },
+    tabBarWrapper: {
       height: 60,
+      margin: 10,
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      margin: 10,
       borderRadius: 10,
+      flexDirection: 'row',
+      backgroundColor: colorSet.tabBarColor,
     },
     iconWrapper: {
       height: 80,

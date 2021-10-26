@@ -9,7 +9,6 @@ function TabBar({state, descriptors, navigation}) {
 
   function renderTab(route: RouteProp<any>, index: number) {
     const {options} = descriptors[route.key];
-    const label = options.tabBarLabel;
     const isFocused = state.index === index;
 
     const onPress = () => {
@@ -49,7 +48,7 @@ function TabBar({state, descriptors, navigation}) {
 
   return (
     <View style={styles.tabBarContainer}>
-      {state.routes.map(renderTab)}
+      <View style={styles.tabBarWrapper}>{state.routes.map(renderTab)}</View>
     </View>
   );
 }

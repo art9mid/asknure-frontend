@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { User } from "../../models";
+import { User } from '../../models';
 
-const BASE_URL = process.env.BASE_URL;
+// const BASE_URL = process.env.BASE_URL;
+const BASE_URL = 'http://192.168.1.7:8080';
 
 const BASE_AXIOS_CONFIG = {
   baseURL: BASE_URL,
   withCredentials: true,
-  validateStatus: (status: number) => status < 400,
   maxRedirects: 5,
   timeout: 20000,
 };

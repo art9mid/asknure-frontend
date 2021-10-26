@@ -11,6 +11,9 @@ export default function HomeStackNavigator() {
       <Stack.Screen
         name="HomeScreen"
         component={Home}
+        options={{
+          headerTitle: 'askNURE'
+        }}
       />
     </Stack.Navigator>
   );
