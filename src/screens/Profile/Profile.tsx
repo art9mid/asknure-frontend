@@ -1,9 +1,12 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
+import { GoogleSignInButton } from '../../components/GoogleSignInButton/GoogleSignInButton';
 
 const Profile = () => {
   return (
-    <Text>Profile</Text>
+    <ScrollView>
+      <GoogleSignInButton />
+    </ScrollView>
   );
 };
 

@@ -1,14 +1,17 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FlatList, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
+import { QuestionListItem } from '../../components';
 import { fetchPostsThunk } from '../../redux/thunks/posts';
 import { openLinkInAppBrowser } from '../../utils/customTab';
+import RNBootSplash from 'react-native-bootsplash';
 
 const Home = () => {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const dispatch = useDispatch();
+  const posts = useSelector((store) => store.posts.posts);
 
   const dummyData = [
     {
@@ -37,11 +40,7 @@ const Home = () => {
     },
   ];
 
-  React.useEffect(() => {
-    dispatch(fetchPostsThunk());
-  }, []);
-
-  const renderСhair = ({index, item}) => {
+  const renderСhair = ({ index, item }) => {
     return (
       <Pressable onPress={() => openLinkInAppBrowser(item.link)}>
         <View style={styles.chairItemContainer}>
@@ -51,14 +50,25 @@ const Home = () => {
     );
   };
 
+  const renderPosts = ({ index, item }) => {
+    return <QuestionListItem item={item} />;
+  };
+
   return (
     <ScrollView style={styles.container}>
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: 5}}
+        contentContainerStyle={{ paddingHorizontal: 5 }}
         data={dummyData}
         renderItem={renderСhair}
+        keyExtractor={(item, index) => index.toString()}
+      />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 10 }}
+        data={posts}
+        renderItem={renderPosts}
         keyExtractor={(item, index) => index.toString()}
       />
     </ScrollView>

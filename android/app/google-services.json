@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "81309441837",
+    "project_id": "ask-nure",
+    "storage_bucket": "ask-nure.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81309441837:android:cb928e37db2a1a7fff7da4",
+        "android_client_info": {
+          "package_name": "com.asknure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81309441837-p8f5iskkqr429542h326t1kh6po36kg8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.asknure",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "81309441837-a8mhn6i0hapr1b4bbs0evkin7rv7eqst.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAleHRgU3PVMp4Q4oF_Lj-KQFzmB-gM0Ko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81309441837-a8mhn6i0hapr1b4bbs0evkin7rv7eqst.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

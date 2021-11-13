@@ -7,7 +7,6 @@ const BASE_URL = 'http://192.168.1.7:8080';
 const BASE_AXIOS_CONFIG = {
   baseURL: BASE_URL,
   withCredentials: true,
-  maxRedirects: 5,
   timeout: 20000,
 };
 

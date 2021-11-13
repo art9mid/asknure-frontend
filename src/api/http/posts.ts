@@ -10,6 +10,7 @@ export const fetchPosts = () => {
       throw new Error(response.data);
     })
     .catch((error) => {
+      console.log(error);
       if (error instanceof Error) {
         throw error;
       }
