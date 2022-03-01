@@ -4,3 +4,4 @@ export { default as MultilineTextInput } from './MultilineTextInput/MultilineTex
 export { default as AppTitle } from './AppTitle/AppTitle';
 export { default as AppBtn } from './AppButton/AppBtn';
 export { default as ErrorText } from './ErrorText/ErrorText';
+export { default as Loader } from './Loader/Loader';
