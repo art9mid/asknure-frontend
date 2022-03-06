@@ -15,6 +15,13 @@ const dynamicStyles = (colorScheme) => {
       left: 0,
       bottom: 0,
     },
+    text: {
+      fontSize: 16,
+      fontWeight: '700',
+      marginTop: 20,
+      maxWidth: '70%',
+      textAlign: 'center',
+    },
   });
 };
 

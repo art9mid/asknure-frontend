@@ -1,9 +1,9 @@
 import React from 'react';
 import SwitchSelector from 'react-native-switch-selector';
-import { ScrollView, Text, useColorScheme, View } from 'react-native';
+import { ScrollView, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
 import AppStyles from '../../AppStyles';
-import { MultilineTextInput, AppTitle, AppBtn, ErrorText, Loader } from '../../components';
+import { MultilineTextInput, AppTitle, AppBtn, Loader, FilePicker } from '../../components';
 import { useFormikWithErrorAutoClear } from '../../utils/formik';
 import { addPostValidation } from '../../core/validation/addPostValidation';
 import { addPostThunk } from '../../redux/thunks/posts';
@@ -18,17 +18,21 @@ const AddPost = (props) => {
   const navigation = useNavigation();
   const loading = useSelector((state) => state.posts.addPostsLoading);
 
-  const { formik, error } = useFormikWithErrorAutoClear(
+  const [files, setFiles] = React.useState(null);
+
+  const { formik } = useFormikWithErrorAutoClear(
     {
       initialValues: {
         title: '',
         isAnonimus: true,
       },
       onSubmit: (params) => {
-        dispatch(addPostThunk(params)).then(({ success }) => {
-          if (success) {
+        dispatch(addPostThunk({ ...params, files })).then((response) => {
+          if (response.success) {
             showSuccessNotification('Пост успешно создан', 'Ваш пост видят все пользователи форума хнурэ!');
             navigation.navigate('Home');
+          } else if (response?.error?.code === 'storage/file-not-found') {
+            showErrorNotification('Путь к локальному файлу утрачен', 'Убедитесь что вы не удалили файл с устройства');
           } else {
             showErrorNotification('Что-то пошло не так!', 'Попробуйте повторить попытку позже');
           }
@@ -45,9 +49,9 @@ const AddPost = (props) => {
   ];
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {loading && <Loader opacity />}
-      <View>
+    <View style={styles.container}>
+      {loading && <Loader opacity text={'Загружаем данные'} />}
+      <ScrollView style={{ flex: 1 }}>
         <AppTitle style={styles.title}>👋 Спросить людей</AppTitle>
         <MultilineTextInput
           onBlur={formik.handleBlur('title')}
@@ -55,16 +59,18 @@ const AddPost = (props) => {
           value={formik.values.title}
           editable
           multiline
+          error={formik.touched.title && formik.errors.title}
           numberOfLines={6}
           placeholder={'Спросите у людей с ХНУРЭ …'}
         />
-        {!!formik?.errors?.title && <ErrorText>{formik.errors.title}</ErrorText>}
+        <AppTitle>📁 Добавить изображение/документы</AppTitle>
+        <FilePicker contentContainerStyle={{ paddingVertical: 5 }} files={files} setFiles={setFiles} />
         <AppTitle>🧐 От какого лица вы хотите задать вопрос ?</AppTitle>
         <SwitchSelector
           style={styles.switchSelector}
           selectedTextStyle={{ fontWeight: '700' }}
           textColor={AppStyles.colorSet[colorScheme].grey2}
-          buttonColor={AppStyles.colorSet[colorScheme].tabBarColor}
+          buttonColor={AppStyles.colorSet[colorScheme].mainThemeColor}
           activeColor={AppStyles.colorSet[colorScheme].textColor}
           selectedColor={AppStyles.colorSet[colorScheme].whiteText}
           borderRadius={10}
@@ -73,11 +79,9 @@ const AddPost = (props) => {
           onPress={formik.onValueChange('isAnonimus')}
           options={options}
         />
-      </View>
-      <AppBtn disabled={!formik.isValid} onPress={formik.handleSubmit}>
-        Опубликовать
-      </AppBtn>
-    </ScrollView>
+      </ScrollView>
+      <AppBtn onPress={formik.handleSubmit}>Опубликовать</AppBtn>
+    </View>
   );
 };
 

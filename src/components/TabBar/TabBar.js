@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, useColorScheme, View } from 'react-native';
+import { Pressable, useColorScheme, View, SafeAreaView } from 'react-native';
 import dynamicStyles from './styles';
 
 function TabBar({ state, descriptors, navigation }) {
@@ -46,9 +46,9 @@ function TabBar({ state, descriptors, navigation }) {
   }
 
   return (
-    <View style={styles.tabBarContainer}>
+    <SafeAreaView style={styles.tabBarContainer}>
       <View style={styles.tabBarWrapper}>{state.routes.map(renderTab)}</View>
-    </View>
+    </SafeAreaView>
   );
 }
 

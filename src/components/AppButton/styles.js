@@ -15,7 +15,7 @@ const dynamicStyles = (colorScheme) => {
   return StyleSheet.create({
     btn: {
       ...baseButton,
-      backgroundColor: AppStyles.colorSet[colorScheme].tabBarColor,
+      backgroundColor: AppStyles.colorSet[colorScheme].mainThemeColor,
     },
     btnDisabled: {
       ...baseButton,
@@ -29,7 +29,7 @@ const dynamicStyles = (colorScheme) => {
     btnDisabledSecondary: {
       borderWidth: 1,
       color: AppStyles.colorSet[colorScheme].textColor,
-      borderColor: AppStyles.colorSet[colorScheme].tabBarColor,
+      borderColor: AppStyles.colorSet[colorScheme].mainThemeColor,
     },
     btnIcon: {
       width: 26,

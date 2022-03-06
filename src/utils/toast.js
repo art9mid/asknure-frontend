@@ -8,7 +8,7 @@ export function showSuccessNotification(text1, text2) {
     position: 'top',
     autoHide: true,
     type: 'success',
-    visibilityTime: 500000,
+    visibilityTime: 5000,
   });
 }
 

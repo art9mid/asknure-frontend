@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Svg, { Path } from 'react-native-svg';
-import { SvgIcon } from "../models";
 
-export default function ProfileTabIcon({color}: SvgIcon) {
+export default function ProfileTabIcon({ color }) {
   return (
     <Svg width={'28'} height={'28'} viewBox={'0 0 28 28'} fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path

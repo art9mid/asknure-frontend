@@ -1,8 +1,7 @@
 import React from 'react';
 import Svg, { Path, Rect } from 'react-native-svg';
-import { SvgIcon } from '../models';
 
-export default function UserAvatarIcon({ color = '#212121' }): SvgIcon {
+export default function UserAvatarIcon({ color = '#212121' }) {
   return (
     <Svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path fillRule="evenodd" clipRule="evenodd"

@@ -1,8 +1,7 @@
 import React from 'react';
 import Svg, { Path } from 'react-native-svg';
-import { SvgIcon } from '../models';
 
-export default function HomeIcon({color}: SvgIcon) {
+export default function HomeIcon({ color }) {
   return (
     <Svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
       <Path fillRule="evenodd" clipRule="evenodd"

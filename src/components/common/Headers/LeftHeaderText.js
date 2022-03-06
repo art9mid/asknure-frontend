@@ -1,15 +1,15 @@
 import React from 'react';
-import { Text, useColorScheme, View } from 'react-native';
+import { Text, View, useColorScheme } from 'react-native';
 import dynamicStyles from './styles';
 
-function HomeLeftHeader() {
+function LeftHeaderText({ children }) {
   const colorSchema = useColorScheme();
   const styles = dynamicStyles(colorSchema);
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>ASK NURE</Text>
+      <Text style={styles.text}>{children}</Text>
     </View>
   );
 }
 
-export default HomeLeftHeader;
+export default LeftHeaderText;

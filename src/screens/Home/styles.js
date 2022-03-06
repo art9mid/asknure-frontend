@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import AppStyles from '../../AppStyles';
 
 const styles = (colorScheme) => {
@@ -22,7 +22,7 @@ const styles = (colorScheme) => {
       color: colorSet.textColor,
     },
     containerList: {
-      paddingHorizontal: 10,
+      paddingHorizontal: 15,
     },
     chairContainer: {
       paddingHorizontal: 5,

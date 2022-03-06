@@ -36,6 +36,7 @@ const dynamicStyles = (colorScheme) => {
       fontWeight: '700',
       fontSize: 16,
       paddingBottom: 5,
+      width: '90%',
     },
     date: {
       color: AppStyles.colorSet[colorScheme].blackSubTextColor,

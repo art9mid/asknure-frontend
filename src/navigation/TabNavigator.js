@@ -1,20 +1,20 @@
 import React from 'react';
 import { Text, useColorScheme, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TabBar } from '../components';
-import HomeStackNavigator from './HomeStackNavigator';
-import ProfileStackNavigator from './ProfileStackNavigator';
-import { HomeIcon } from '../SvgComponents';
 import dynamicStyles from './styles';
-import ProfileTabIcon from '../SvgComponents/ProfileTabIcon';
 import AppStyles from '../AppStyles';
+import { TabBar } from '../components';
+import { HomeIcon } from '../SvgComponents';
+import HomeStackNavigator from './HomeStackNavigator';
 import { useNavigation } from '@react-navigation/native';
+import ProfileStackNavigator from './ProfileStackNavigator';
+import ProfileTabIcon from '../SvgComponents/ProfileTabIcon';
 
 const Tab = createBottomTabNavigator();
 
-function AddModal() {
+const AddPost = () => {
   return <></>;
-}
+};
 
 function TabNavigator() {
   const colorScheme = useColorScheme();
@@ -33,18 +33,18 @@ function TabNavigator() {
         options={{
           tabBarLabel: 'Home',
           headerShown: false,
-          tabBarIcon: ({active}) => <HomeIcon color={AppStyles.colorSet[colorScheme][active ? 'white' : 'grey2']} />,
+          tabBarIcon: ({ active }) => <HomeIcon color={AppStyles.colorSet[colorScheme][active ? 'white' : 'grey2']} />,
         }}
       />
       <Tab.Screen
         name="AddModal"
-        component={AddModal}
+        component={AddPost}
         options={{
           tabBarLabel: 'PlusQuestion',
           tabPress: () => {
-            navigation.navigate('MainStack', {screen :'AddPost'})
+            navigation.navigate('MainStack', { screen: 'AddPost' });
           },
-          tabBarIcon: ({active}) => (
+          tabBarIcon: () => (
             <View style={styles.plusItemContainer}>
               <Text style={styles.plusItemText}>+</Text>
             </View>
@@ -57,7 +57,7 @@ function TabNavigator() {
         options={{
           tabBarLabel: 'Profile',
           headerShown: false,
-          tabBarIcon: ({active}) => <ProfileTabIcon
+          tabBarIcon: ({ active }) => <ProfileTabIcon
             color={AppStyles.colorSet[colorScheme][active ? 'white' : 'grey2']} />,
         }}
       />

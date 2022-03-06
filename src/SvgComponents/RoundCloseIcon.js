@@ -1,12 +1,13 @@
 import React from 'react';
-import Svg, { Circle, Rect } from 'react-native-svg';
+import Svg, { Circle, Path } from 'react-native-svg';
 
-export default function RoundPlusIcon({ size, color = '#212121' }) {
+export default function RoundCloseIcon() {
   return (
     <Svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <Circle cx="12" cy="12" r="10" stroke={color} strokeWidth="2" />
-      <Rect x="7" y="11" width="10" height="2" fill={color} />
-      <Rect x="13" y="7" width="10" height="2" transform="rotate(90 13 7)" fill={color} />
+      <Circle opacity="0.5" cx="12" cy="12" r="10" fill="#D1D1D6" />
+      <Path
+        d="M8.85355 8.14645C8.65829 7.95118 8.34171 7.95118 8.14645 8.14645C7.95118 8.34171 7.95118 8.65829 8.14645 8.85355L11.2929 12L8.14645 15.1464C7.95118 15.3417 7.95118 15.6583 8.14645 15.8536C8.34171 16.0488 8.65829 16.0488 8.85355 15.8536L12 12.7071L15.1464 15.8536C15.3417 16.0488 15.6583 16.0488 15.8536 15.8536C16.0488 15.6583 16.0488 15.3417 15.8536 15.1464L12.7071 12L15.8536 8.85355C16.0488 8.65829 16.0488 8.34171 15.8536 8.14645C15.6583 7.95118 15.3417 7.95118 15.1464 8.14645L12 11.2929L8.85355 8.14645Z"
+        fill="#212121" />
     </Svg>
   );
 }

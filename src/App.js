@@ -11,6 +11,7 @@ import { toastConfig } from './utils/toast';
 import configureStore from './redux/store';
 import { navigationRef } from './utils/navigation';
 import { RootNavigator } from './navigation/RootNavigator';
+import RNBootSplash from 'react-native-bootsplash';
 
 const { store, persist } = configureStore();
 
@@ -29,7 +30,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persist}>
         <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <NavigationContainer ref={navigationRef}>
+          <NavigationContainer ref={navigationRef} onReady={() => RNBootSplash.hide({ fade: true })}>
             <RootNavigator />
             <Toast config={toastConfig} />
           </NavigationContainer>

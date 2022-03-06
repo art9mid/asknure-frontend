@@ -10,7 +10,7 @@ const AppBtn = ({ disabled, onPress, children, style = {}, secondary }) => {
   const disabledStyle = secondary ? styles.btnDisabledSecondary : styles.btnSecondary;
 
   return (
-    <Pressable style={style.container} disabled={disabled} onPress={onPress}>
+    <Pressable style={{ ...style.container, ...style }} disabled={disabled} onPress={onPress}>
       <View style={[activeStyle, disabled && disabledStyle, style.button]}>
         <Text style={[styles.text, style.text, secondary && styles.textSecondary]}>{children}</Text>
       </View>

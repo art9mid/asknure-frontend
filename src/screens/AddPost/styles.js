@@ -8,8 +8,9 @@ const styles = (colorScheme) => {
     container: {
       height: '100%',
       backgroundColor: colorSet.whiteBackgroundColor,
-      justifyContent: 'space-between',
-      padding: 15,
+      paddingHorizontal: 15,
+      paddingTop: 15,
+      paddingBottom: 20,
     },
     title: {
       fontSize: 20,
