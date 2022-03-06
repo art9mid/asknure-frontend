@@ -12,10 +12,6 @@ target 'asknure' do
     :hermes_enabled => false
   )
 
-    use_frameworks!
-    pod 'Firebase/Core'
-    pod 'Firebase/Storage'
-
   target 'asknureTests' do
     inherit! :complete
     # Pods for testing

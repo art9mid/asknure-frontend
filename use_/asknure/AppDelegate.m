@@ -1,6 +1,5 @@
 #import "AppDelegate.h"
-#import <Firebase.h>
-#import "RNBootSplash.h"
+
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -32,10 +31,6 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
 
-    if ([FIRApp defaultApp] == nil) {
-      [FIRApp configure];
-    }
-
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"asknure"
@@ -52,9 +47,6 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-
-  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
-
   return YES;
 }
 
