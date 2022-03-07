@@ -2,13 +2,14 @@ import React from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { Text, useColorScheme, View } from 'react-native';
+import { Share, Text, useColorScheme, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import dynamicStyles from './styles';
 import PostAnswer from './PostAnswer';
 import { showErrorNotification } from '../../utils/toast';
 import { fetchPostThunk } from '../../redux/thunks/posts';
 import { AppTitle, Comment, HeaderTitle, Loader, ShareButton } from '../../components';
+import buildLink from '../../utils/buildLink';
 
 const Post = (props) => {
   const dispatch = useDispatch();
@@ -35,11 +36,19 @@ const Post = (props) => {
     }
   }, [postId]);
 
+  const handleShare = React.useCallback(() => {
+    buildLink({ postId }).then((link) => {
+      Share.share({
+        message: link,
+      });
+    });
+  }, []);
+
   React.useEffect(() => {
     if (post) {
       navigation.setOptions({
         headerTitle: () => <HeaderTitle title={post.creator} />,
-        headerRight: () => <ShareButton />,
+        headerRight: () => <ShareButton onPress={handleShare} />,
       });
     }
   }, [post]);

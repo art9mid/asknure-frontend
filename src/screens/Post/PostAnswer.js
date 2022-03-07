@@ -82,6 +82,7 @@ const PostAnswer = ({ postId, setPost, post }) => {
           numberOfLines={6}
           placeholder={'Спросите у людей с ХНУРЭ …'}
           maxLength={MAX_POST_LENGTH}
+          style={{ paddingBottom: 45 }}
         />
         <Animated.View
           style={{

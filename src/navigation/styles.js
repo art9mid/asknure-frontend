@@ -27,7 +27,7 @@ const dynamicStyles = (colorScheme) => {
       color: styles.tabBarColor,
     },
     headerStyle: {
-      height: 100,
+      paddingVertical: 10,
       borderBottomWidth: 1,
       borderBottomColor: styles.grey3,
       shadowColor: 'transparent',

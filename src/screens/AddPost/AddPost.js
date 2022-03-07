@@ -51,7 +51,7 @@ const AddPost = (props) => {
   return (
     <View style={styles.container}>
       {loading && <Loader opacity text={'Загружаем данные'} />}
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flex: 1 }}>
         <AppTitle style={styles.title}>👋 Спросить людей</AppTitle>
         <MultilineTextInput
           onBlur={formik.handleBlur('title')}
@@ -80,7 +80,9 @@ const AddPost = (props) => {
           options={options}
         />
       </ScrollView>
-      <AppBtn onPress={formik.handleSubmit}>Опубликовать</AppBtn>
+      <View style={{ paddingTop: 15 }}>
+        <AppBtn onPress={formik.handleSubmit}>Опубликовать</AppBtn>
+      </View>
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const BASE_URL = process.env.BASE_URL;
-const BASE_URL = 'https://28a8-165-22-27-148.ngrok.io';
+const BASE_URL = 'http://192.168.0.111:8080';
 
 const BASE_AXIOS_CONFIG = {
   baseURL: BASE_URL,

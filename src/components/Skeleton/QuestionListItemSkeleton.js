@@ -1,16 +1,35 @@
 import React from 'react';
-import SkeletonContent from 'react-native-skeleton-content';
+import { View, useColorScheme, FlatList } from 'react-native';
+import dynamicStyles from './styles';
+import Skeleton from './Skeleton';
+import AppStyles from '../../AppStyles';
 
-const QuestionListItemSkeleton = () => {
+const QuestionListItemSkeleton = ({ productLength = 10 }) => {
+  const data = new Array(productLength).fill(1);
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(colorScheme);
+
+  function renderSkeleton() {
+    return (
+      <View style={styles.container}>
+        <Skeleton style={{ height: 100, width: '100%' }} />
+      </View>
+    );
+  }
+
   return (
-    <SkeletonContent
-      containerStyle={{ flex: 1, width: 300 }}
-      animationDirection="horizontalLeft"
-      layout={[
-        { width: 220, height: 20, marginBottom: 6 },
-        { width: 180, height: 20, marginBottom: 6 },
-      ]}
-      isLoading
+    <FlatList
+      data={data}
+      spacing={0}
+      contentContainerStyle={{
+        height: '100%',
+        padding: 15,
+        backgroundColor: AppStyles.colorSet[colorScheme].whiteBackgroundColor,
+      }}
+      renderItem={renderSkeleton}
+      initialNumToRender={5}
+      maxToRenderPerBatch={30}
+      onEndReachedThreshold={1}
     />
   );
 };

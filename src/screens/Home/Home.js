@@ -133,7 +133,7 @@ const Home = () => {
     loadItems();
   }, []);
 
-  if (!screenLoading) {
+  if (screenLoading) {
     return <QuestionListItemSkeleton />;
   }
 
