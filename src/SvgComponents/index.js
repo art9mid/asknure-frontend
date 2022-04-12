@@ -8,3 +8,6 @@ export { default as ShareIcon } from './ShareIcon';
 export { default as RoundPlusIcon } from './RoundPlusIcon';
 export { default as FileIcon } from './FileIcon';
 export { default as RoundCloseIcon } from './RoundCloseIcon';
+export { default as PencilIcon } from './PencilIcon';
+export { default as BlockIcon } from './BlockIcon';
+export { default as SettingsIcon } from './SettingsIcon';
