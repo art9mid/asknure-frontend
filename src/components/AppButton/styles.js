@@ -8,7 +8,7 @@ const dynamicStyles = (colorScheme) => {
     justifyContent: 'center',
     flexDirection: 'row',
     borderRadius: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     height: 55,
   };
 
@@ -18,18 +18,18 @@ const dynamicStyles = (colorScheme) => {
       backgroundColor: AppStyles.colorSet[colorScheme].mainThemeColor,
     },
     btnDisabled: {
-      ...baseButton,
-      backgroundColor: AppStyles.colorSet[colorScheme].grey3,
+      opacity: 0.7,
     },
     btnSecondary: {
       ...baseButton,
       color: AppStyles.colorSet[colorScheme].whiteText,
-      backgroundColor: AppStyles.colorSet[colorScheme].grey2,
+      backgroundColor: AppStyles.colorSet[colorScheme].whiteBackgroundColor,
+      borderWidth: 1,
+      borderColor: AppStyles.colorSet[colorScheme].mainThemeColor,
     },
     btnDisabledSecondary: {
-      borderWidth: 1,
-      color: AppStyles.colorSet[colorScheme].textColor,
-      borderColor: AppStyles.colorSet[colorScheme].mainThemeColor,
+      opacity: 0.7,
+
     },
     btnIcon: {
       width: 26,
@@ -40,6 +40,7 @@ const dynamicStyles = (colorScheme) => {
     text: {
       fontSize: 16,
       color: AppStyles.colorSet[colorScheme].whiteText,
+      fontWeight: '500',
     },
     textSecondary: {
       fontSize: 16,

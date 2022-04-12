@@ -1,23 +1,51 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 import { FlatList, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
-import { Loader, QuestionListItem, QuestionListItemSkeleton } from '../../components';
-import { openLinkInAppBrowser } from '../../utils/customTab';
-import { fetchPostsThunk } from '../../redux/thunks/posts';
 import { showErrorNotification } from '../../utils/toast';
+import { fetchPostsThunk } from '../../redux/thunks/posts';
+import { openLinkInAppBrowser } from '../../utils/customTab';
+import { QuestionListItemSkeleton, PostsList } from '../../components';
 
-const HomeTape = () => {
+const Home = () => {
+  const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const [waiting, setWaiting] = React.useState(false);
-  const [page, setPage] = React.useState(1);
 
   const posts = useSelector((store) => store.posts.posts);
   const postsLoading = useSelector((store) => store.posts.postsLoading);
+
+  const [page, setPage] = React.useState(1);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [screenLoading, setScreenLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    dispatch(fetchPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
+      setScreenLoading(false);
+      if (!success) {
+        showErrorNotification('Что-то пошло не так');
+      }
+    });
+  }, []);
+
+  const refreshItems = () => {
+    setRefreshing(true);
+    dispatch(fetchPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
+      setRefreshing(false);
+      setPage(1);
+      if (!success) {
+        showErrorNotification('Что-то пошло не так');
+      }
+    });
+  };
+
+  const loadItems = () => {
+    if (!posts.last) {
+      dispatch(fetchPostsThunk({ page, size: 20 })).then((response) => {
+        setPage(page + 1);
+      });
+    }
+  };
 
   const dummyData = [
     {
@@ -56,83 +84,6 @@ const HomeTape = () => {
     );
   };
 
-  const handlePostPress = React.useCallback((postId) => {
-    return () => {
-      navigation.navigate('Home', {
-        screen: 'PostScreen',
-        params: { postId },
-      });
-    };
-  }, []);
-
-  const renderPosts = ({ item }) => {
-    return <QuestionListItem onClick={handlePostPress(item.id)} item={item} />;
-  };
-
-  const onEndReached = async () => {
-    if (!(posts.totalPages === page) && !waiting) {
-      setWaiting(true);
-      await dispatch(fetchPostsThunk({ page, size: 20 })).then((response) => {
-        if (response.success) {
-          setPage(page + 1);
-        } else {
-          showErrorNotification('Что-то пошло не так');
-        }
-      });
-      setWaiting(false);
-    }
-  };
-
-  const renderLoading = () => {
-    if (postsLoading) {
-      return <View style={{ height: 80 }}><Loader /></View>;
-    }
-  };
-
-  return (
-    <>
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.chairContainer}
-        data={dummyData}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      <FlatList
-        style={styles.containerList}
-        data={posts?.content}
-        renderItem={renderPosts}
-        initialNumToRender={10}
-        onEndReachedThreshold={.5}
-        onEndReached={onEndReached}
-        keyExtractor={({ id }) => id.toString()}
-        ListFooterComponent={renderLoading()}
-      />
-    </>
-  );
-};
-
-const Home = () => {
-  const colorScheme = useColorScheme();
-  const styles = dynamicStyles(colorScheme);
-  const dispatch = useDispatch();
-  const [screenLoading, setScreenLoading] = React.useState(false);
-
-  const loadItems = () => {
-    setScreenLoading(true);
-    dispatch(fetchPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
-      setScreenLoading(false);
-      if (!success) {
-        showErrorNotification('Что-то пошло не так');
-      }
-    });
-  };
-
-  React.useEffect(() => {
-    loadItems();
-  }, []);
-
   if (screenLoading) {
     return <QuestionListItemSkeleton />;
   }
@@ -143,11 +94,19 @@ const Home = () => {
       keyExtractor={(e, i) => 'dom' + i.toString()}
       ListEmptyComponent={null}
       renderItem={null}
-      refreshing={screenLoading}
-      onRefresh={loadItems}
+      refreshing={refreshing}
+      onRefresh={refreshItems}
       ListFooterComponent={() => (
         <ScrollView style={styles.container}>
-          <HomeTape />
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.chairContainer}
+            data={dummyData}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+          <PostsList fetchItems={loadItems} loading={postsLoading} posts={posts} />
         </ScrollView>
       )}
     />

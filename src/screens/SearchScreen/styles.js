@@ -8,25 +8,48 @@ const styles = (colorScheme) => {
     container: {
       height: '100%',
       backgroundColor: colorSet.whiteBackgroundColor,
-      paddingVertical: 10,
     },
-    chairItemContainer: {
-      paddingVertical: 8,
+    searchWrapper: {
+      height: 40,
+      flexDirection: 'row',
+      alignItems: 'center',
       paddingHorizontal: 20,
-      backgroundColor: colorSet.grey1,
-      marginVertical: 20,
-      marginHorizontal: 5,
-      borderRadius: 5,
+      paddingTop: 10,
     },
-    chairItemText: {
-      fontSize: 14,
-      color: colorSet.textColor,
+    input: {
+      flex: 1,
     },
-    containerList: {
-      paddingHorizontal: 15,
+    searchCloseText: {
+      fontSize: 17,
+      color: AppStyles.colorSet[colorScheme].grey4,
+      paddingLeft: 12,
     },
-    chairContainer: {
-      paddingHorizontal: 5,
+    searchCloseContainer: {
+      height: '100%',
+      justifyContent: 'center',
+    },
+    box: {
+      width: 60,
+      height: 60,
+      borderWidth: 1,
+      borderRadius: 10,
+      marginBottom: 15,
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
+    },
+    boxText: {
+      padding: 5,
+      fontSize: 23,
+      color: AppStyles.colorSet[colorScheme].blackTextColor,
+    },
+    emptySearchText: {
+      fontSize: 16,
+      maxWidth: '80%',
+      color: AppStyles.colorSet[colorScheme].blackTextColor,
+    },
+    emptyContainer: {
+      paddingHorizontal: 20,
+      paddingVertical: 30,
     },
   });
 };

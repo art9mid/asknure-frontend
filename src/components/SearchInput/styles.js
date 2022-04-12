@@ -5,7 +5,7 @@ const dynamicStyles = (colorScheme) => {
   return StyleSheet.create({
     container: {
       flexDirection: 'row',
-      backgroundColor: AppStyles.colorSet[colorScheme].grey1,
+      backgroundColor: AppStyles.colorSet[colorScheme].grey3,
       alignItems: 'center',
       height: 40,
       borderRadius: 6,

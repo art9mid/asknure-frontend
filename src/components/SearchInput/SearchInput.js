@@ -2,10 +2,9 @@ import React from 'react';
 import { Pressable, TextInput, View, useColorScheme } from 'react-native';
 import dynamicStyles from './styles';
 import AppStyles from '../../AppStyles';
-import SearchIcon from '../../SvgIconComponents/SearchIcon';
-import ChatTabIcon from '../../SvgIconComponents/CirclesCloseIcon';
+import { CirclesCloseIcon, SearchIcon } from '../../SvgComponents';
 
-export function SearchInput({ value, onChangeText, placeholder, style = {}, ...props }) {
+function SearchInput({ value, onChangeText, placeholder, style = {}, ...props }) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
 
@@ -23,7 +22,7 @@ export function SearchInput({ value, onChangeText, placeholder, style = {}, ...p
   return (
     <View style={[styles.container, style.container]}>
       <Pressable style={styles.searchContainer} onPress={onFocus}>
-        <SearchIcon size={28} color={AppStyles.colorSet[colorScheme].mainTextColor} />
+        <SearchIcon size={28} color={AppStyles.colorSet[colorScheme].blackTextColor} />
       </Pressable>
       <TextInput
         ref={inputRef}
@@ -34,9 +33,13 @@ export function SearchInput({ value, onChangeText, placeholder, style = {}, ...p
         placeholder={placeholder}
         {...props}
       />
-      <Pressable style={styles.searchContainer} onPress={onClear}>
-        <ChatTabIcon size={16} color={AppStyles.colorSet[colorScheme].grey7} />
-      </Pressable>
+      {!!value && (
+        <Pressable style={styles.searchContainer} onPress={onClear}>
+          <CirclesCloseIcon size={16} color={AppStyles.colorSet[colorScheme].grey1} />
+        </Pressable>
+      )}
     </View>
   );
 }
+
+export default SearchInput;

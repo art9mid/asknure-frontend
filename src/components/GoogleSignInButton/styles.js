@@ -1,24 +1,27 @@
 import { StyleSheet } from 'react-native';
-import AppStyles from '../../AppStyles';
 
 const dynamicStyles = (colorScheme) => {
   return StyleSheet.create({
     googleBtn: {
-      height: 45,
-      backgroundColor: AppStyles.colorSet[colorScheme].grey2,
-      borderRadius: 10,
+      padding: 2,
+      backgroundColor: '#4588f1',
+      borderRadius: 3,
       minWidth: 130,
-      justifyContent: 'center',
       flexDirection: 'row',
       alignItems: 'center',
       marginHorizontal: 5,
+    },
+    googleIcon: {
+      backgroundColor: '#fff',
+      padding: 10,
     },
     text: {
       paddingTop: 2,
       justifyContent: 'center',
       fontWeight: '700',
-      fontSize: 15,
-      paddingLeft: 20,
+      fontSize: 17,
+      paddingHorizontal: 20,
+      color: '#fff',
     },
   });
 };

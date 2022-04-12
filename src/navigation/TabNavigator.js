@@ -3,7 +3,7 @@ import { Text, useColorScheme, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import dynamicStyles from './styles';
 import AppStyles from '../AppStyles';
-import { TabBar } from '../components';
+import { SearchHeaderRight, TabBar } from '../components';
 import { HomeIcon } from '../SvgComponents';
 import HomeStackNavigator from './HomeStackNavigator';
 import { useNavigation } from '@react-navigation/native';

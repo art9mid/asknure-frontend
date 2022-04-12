@@ -1,14 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { FlatList, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
+import { FlatList, ScrollView, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
-import { Loader, QuestionListItem, QuestionListItemSkeleton } from '../../components';
-import { openLinkInAppBrowser } from '../../utils/customTab';
-import { fetchPostsThunk } from '../../redux/thunks/posts';
 import { showErrorNotification } from '../../utils/toast';
+import { fetchUserPostsThunk } from '../../redux/thunks/user';
+import { Loader, QuestionListItem, QuestionListItemSkeleton } from '../../components';
 
-const HomeTape = () => {
+const Posts = () => {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const navigation = useNavigation();
@@ -16,51 +15,13 @@ const HomeTape = () => {
   const [waiting, setWaiting] = React.useState(false);
   const [page, setPage] = React.useState(1);
 
-  const posts = useSelector((store) => store.posts.posts);
-  const postsLoading = useSelector((store) => store.posts.postsLoading);
-
-  const dummyData = [
-    {
-      name: 'КИТАМ',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'СТas dasd asdsa d',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'РТas dasd a',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'KOSDas das da',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'FDFDFDas dsa da',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'FDWEWE',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-  ];
-
-  const renderItem = ({ item }) => {
-    return (
-      <Pressable onPress={() => openLinkInAppBrowser(item.link)}>
-        <View style={styles.chairItemContainer}>
-          <Text style={styles.chairItemText}>{item.name}</Text>
-        </View>
-      </Pressable>
-    );
-  };
+  const posts = useSelector((store) => store.user.posts);
+  const postsLoading = useSelector((store) => store.user.postsLoading);
 
   const handlePostPress = React.useCallback((postId) => {
     return () => {
-      navigation.navigate('Home', {
-        screen: 'PostScreen',
-        params: { postId },
+      navigation.navigate('PostScreen', {
+        postId,
       });
     };
   }, []);
@@ -72,7 +33,7 @@ const HomeTape = () => {
   const onEndReached = async () => {
     if (!(posts.totalPages === page) && !waiting) {
       setWaiting(true);
-      await dispatch(fetchPostsThunk({ page, size: 20 })).then((response) => {
+      await dispatch(fetchUserPostsThunk({ page, size: 20 })).then((response) => {
         if (response.success) {
           setPage(page + 1);
         } else {
@@ -92,14 +53,6 @@ const HomeTape = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.chairContainer}
-        data={dummyData}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      <FlatList
         style={styles.containerList}
         data={posts?.content}
         renderItem={renderPosts}
@@ -113,16 +66,16 @@ const HomeTape = () => {
   );
 };
 
-const Home = () => {
+const UserPosts = () => {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const dispatch = useDispatch();
-  const [screenLoading, setScreenLoading] = React.useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [screenLoading, setScreenLoading] = React.useState(true);
 
   const loadItems = () => {
     setRefreshing(true);
-    dispatch(fetchPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
+    dispatch(fetchUserPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
       setRefreshing(false);
       if (!success) {
         showErrorNotification('Что-то пошло не так');
@@ -131,7 +84,7 @@ const Home = () => {
   };
 
   React.useEffect(() => {
-    dispatch(fetchPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
+    dispatch(fetchUserPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
       setScreenLoading(false);
       if (!success) {
         showErrorNotification('Что-то пошло не так');
@@ -153,11 +106,11 @@ const Home = () => {
       onRefresh={loadItems}
       ListFooterComponent={() => (
         <ScrollView style={styles.container}>
-          <HomeTape />
+          <Posts />
         </ScrollView>
       )}
     />
   );
 };
 
-export default Home;
+export default UserPosts;

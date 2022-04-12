@@ -1,8 +1,9 @@
+import axios from 'axios';
 import { client } from './client';
 
-export const fetchPosts = ({ page = 0, size = 20 }) => {
-  return client()
-    .get(`/v1/posts?size=${size}&page=${page}`)
+export const userInfo = (token) => {
+  return client({ token })
+    .get('/v1/users/user-info')
     .then(({ status, data }) => {
       if (status === 200 && data) {
         return data;
@@ -17,11 +18,11 @@ export const fetchPosts = ({ page = 0, size = 20 }) => {
     });
 };
 
-export const addPost = (params) => {
-  return client()
-    .post('/v1/posts', params)
+export const updateUserInfo = ({ userId, params }, user) => {
+  return client(user)
+    .put(`/v1/users/${userId}`, params)
     .then(({ status, data }) => {
-      if (status === 201) {
+      if (status === 200 && data) {
         return data;
       }
       throw new Error(data);
@@ -34,11 +35,11 @@ export const addPost = (params) => {
     });
 };
 
-export const fetchPost = (postId) => {
-  return client()
-    .get(`/v1/posts/${postId}`)
+export const fetchUserPosts = ({ page = 0, size = 20 }, user) => {
+  return client(user)
+    .get(`/v1/posts/user?size=${size}&page=${page}`)
     .then(({ status, data }) => {
-      if (status === 200) {
+      if (status === 200 && data) {
         return data;
       }
       throw new Error(data);
@@ -51,16 +52,21 @@ export const fetchPost = (postId) => {
     });
 };
 
-export const addPostComment = (postId, data) => {
-  return client()
-    .post(`/v1/posts/${postId}`, data)
+export const refreshToken = (data) => {
+  return axios
+    .get('https://oauth2.googleapis.com/token', {
+      headers: { 'Content-Type': 'application/json' },
+      data,
+    })
     .then((response) => {
-      if (response.status === 201) {
-        return response.data;
+      console.log(response);
+      if (response.status === 200 && data) {
+        return data;
       }
-      throw new Error(response.data);
+      throw new Error(data);
     })
     .catch((error) => {
+      console.log(error);
       if (error instanceof Error) {
         throw error;
       }

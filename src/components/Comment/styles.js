@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colorSet } from '../../AppStyles';
+import AppStyles, { colorSet } from '../../AppStyles';
 
 const dynamicStyles = (colorScheme) => {
   return new StyleSheet.create({
@@ -33,6 +33,15 @@ const dynamicStyles = (colorScheme) => {
       fontWeight: '400',
       marginTop: 3,
       color: colorSet[colorScheme].blackSubTextColor,
+    },
+    userContainer: {
+      width: 45,
+      height: 44,
+      borderRadius: 22,
+      justifyContent: 'center',
+      backgroundColor: AppStyles.colorSet[colorScheme].grey3,
+      alignItems: 'center',
+      overflow: 'hidden',
     },
   });
 };

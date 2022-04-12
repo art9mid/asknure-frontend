@@ -1,12 +1,11 @@
 import axios from 'axios';
 
 // const BASE_URL = process.env.BASE_URL;
-const BASE_URL = 'http://192.168.0.111:8080';
+const BASE_URL = 'https://23d0-188-190-36-105.ngrok.io';
 
 const BASE_AXIOS_CONFIG = {
   baseURL: BASE_URL,
   withCredentials: true,
-  timeout: 20000,
 };
 
 export function client(user) {
@@ -29,10 +28,23 @@ export function client(user) {
     });
   }
 
-  httpClient.interceptors.request.use(async (request) => {
-    console.log('Starting request', JSON.stringify(request, null, 2));
-    return request;
-  });
+  httpClient.interceptors.request.use(
+    async (request) => {
+      console.log('Starting request', JSON.stringify(request, null, 2));
+      return request;
+    },
+    async function (error) {
+      const { config } = error.response;
+      //
+      // //update current token
+      // if (error.response.status === 401 && !config._retry) {
+      //   const data = config?.data ? JSON.parse(config.data) : {};
+      //
+      //   return httpClient({ ...config, data });
+      // }
+      return Promise.reject(error);
+    },
+  );
 
   return httpClient;
 }

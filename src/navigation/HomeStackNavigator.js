@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Home, Post } from '../screens';
-import { LeftHeaderText, HeaderLeftBack } from '../components';
+import { LeftHeaderText, HeaderLeftBack, SearchHeaderRight } from '../components';
 import dynamicStyles from './styles';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 
@@ -18,6 +18,7 @@ export default function HomeStackNavigator() {
         options={{
           headerStyle: styles.headerStyle,
           headerTitle: '',
+          headerRight: () => <SearchHeaderRight />,
           headerLeft: () => <LeftHeaderText>ASK NURE</LeftHeaderText>,
         }}
       />

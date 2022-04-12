@@ -14,6 +14,7 @@ const PostAnswer = ({ postId, setPost, post }) => {
   const dispatch = useDispatch();
   const colorSchema = useColorScheme();
   const styles = dynamicStyles(colorSchema);
+  const user = useSelector((state) => state.user.user);
   const loading = useSelector((state) => state.posts.addCommentLoading);
 
   const heightAnimation = React.useRef(new Animated.Value(0)).current;
@@ -45,6 +46,7 @@ const PostAnswer = ({ postId, setPost, post }) => {
     {
       initialValues: {
         text: '',
+        photo: user?.avatar,
       },
       onSubmit: (params) => {
         dispatch(addPostCommentThunk(postId, params)).then((response) => {
@@ -74,13 +76,18 @@ const PostAnswer = ({ postId, setPost, post }) => {
       <AppTitle style={styles.title}>Добавить ответ 🙋</AppTitle>
       <View style={{ height: 210, position: 'relative' }}>
         {loading && <Loader opacity />}
+        {!user && (
+          <Text style={{ ...styles.userText, paddingBottom: 10 }}>
+            Чтобы прокоментировать пост, нужно зарегистрироваться
+          </Text>
+        )}
         <MultilineTextInput
           onChangeText={formik.onValueChange('text')}
           value={formik.values.text}
-          editable
+          editable={!!user}
           multiline
           numberOfLines={6}
-          placeholder={'Спросите у людей с ХНУРЭ …'}
+          placeholder={'Добавьте свой ответ'}
           maxLength={MAX_POST_LENGTH}
           style={{ paddingBottom: 45 }}
         />

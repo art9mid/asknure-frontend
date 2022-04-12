@@ -47,7 +47,7 @@ const Post = (props) => {
   React.useEffect(() => {
     if (post) {
       navigation.setOptions({
-        headerTitle: () => <HeaderTitle title={post.creator} />,
+        headerTitle: () => <HeaderTitle title={post.createdBy} />,
         headerRight: () => <ShareButton onPress={handleShare} />,
       });
     }
@@ -67,7 +67,7 @@ const Post = (props) => {
         <Text style={styles.userText}>Ответы: {post.comments?.length}</Text>
         <Text style={styles.userText}>{moment(post.createdAt).format('DD.MM.YYYY')}</Text>
       </View>
-      <KeyboardAwareScrollView style={styles.body}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'} style={styles.body}>
         <Text style={styles.text}>{post.title}</Text>
         {!!post.comments?.length && (
           <View style={styles.answersContainer}>

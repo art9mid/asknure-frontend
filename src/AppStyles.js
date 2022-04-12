@@ -6,6 +6,7 @@ const light = {
   grey1: '#D1D1D6',
   grey2: '#78797b',
   grey3: '#EFEFF4',
+  grey4: '#6E6E6E',
   mainThemeColor: '#1e1f21',
   tabBarColor: '#1e1f21',
   whiteBackgroundColor: '#fff',
@@ -23,6 +24,7 @@ const dark = {
   grey1: '#D1D1D6',
   grey2: '#78797b',
   grey3: '#EFEFF4',
+  grey4: '#6E6E6E',
   mainThemeColor: '#1e1f21',
   tabBarColor: '#1e1f21',
   whiteBackgroundColor: '#fff',
@@ -54,6 +56,10 @@ export const avatars = {
   14: require('../assets/avatars/rabbit.png'),
   15: require('../assets/avatars/rhino.png'),
   16: require('../assets/avatars/weasel.png'),
+};
+export const images = {
+  profile: require('../assets/profile.png'),
+  foreground: require('../assets/foreground.png'),
 };
 
 export default {

@@ -41,11 +41,6 @@ const dynamicStyles = (colorScheme) => {
       paddingRight: 20,
       flex: 1,
     },
-    listSubText: {
-      fontSize: 17,
-      color: AppStyles.colorSet[colorScheme].mainTextColor,
-      paddingRight: 20,
-    },
     list: {
       minHeight: 62,
       width: '100%',

@@ -12,7 +12,7 @@ const dynamicStyles = (colorScheme) => {
     text: {
       fontSize: 23,
       fontWeight: '700',
-      // color: styles.whiteText,
+      color: styles.blackTextColor,
     },
     pageHeaderTitle: {
       textAlign: 'center',

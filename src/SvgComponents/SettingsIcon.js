@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-export default function SettingsIcon({ size, color }) {
+export default function SettingsIcon({ color = '#212121' }) {
   return (
-    <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path
         fillRule="evenodd"
         clipRule="evenodd"

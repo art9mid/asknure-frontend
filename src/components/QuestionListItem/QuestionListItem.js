@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import { Pressable, Text, useColorScheme, View } from 'react-native';
+import { Image, Pressable, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
-import AppStyles from '../../AppStyles';
+import AppStyles, { avatars } from '../../AppStyles';
 import { generateRandomColor } from '../../utils/randomColor';
 import { UserAvatarIcon, ArrowRightIcon } from '../../SvgComponents';
 
@@ -32,7 +32,11 @@ function QuestionListItem({ item, onClick }) {
   return (
     <Pressable onPress={onClick} style={[styles.container, { borderLeftColor: item.color || generateRandomColor() }]}>
       <View style={styles.userContainer}>
-        <Text>{getFullName() || <UserAvatarIcon color={AppStyles.colorSet[colorScheme].mainThemeColor} />}</Text>
+        {!item.photo ? <UserAvatarIcon color={AppStyles.colorSet[colorScheme].mainThemeColor} /> : /http/.test(item.photo) ? (
+          <Image source={{ uri: item.photo }} style={styles.userAvatar} />
+        ) : (
+          <Image source={avatars[item.photo]} style={styles.userAvatar} />
+        )}
       </View>
       <View style={styles.info}>
         <Text style={styles.answers}>answers: {item.answersCount || '0'}</Text>

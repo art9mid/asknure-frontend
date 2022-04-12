@@ -1,5 +1,3 @@
-import storage from '@react-native-firebase/storage';
-import { addPost, addPostComment, fetchPost, fetchPosts } from '../../api/http/posts';
 import {
   ADD_POST_ACTION_FAILED,
   ADD_POST_ACTION_STARTED,
@@ -13,8 +11,13 @@ import {
   FETCH_POSTS_ACTION_FAILED,
   FETCH_POSTS_ACTION_STARTED,
   FETCH_POSTS_ACTION_SUCCESS,
+  LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS,
   REFRESH_POSTS_ACTION_SUCCESS,
+  SEARCH_POSTS_ACTION_FAILED,
+  SEARCH_POSTS_ACTION_STARTED,
+  SEARCH_POSTS_ACTION_SUCCESS,
 } from '../actions';
+import { addPost, addPostComment, fetchPost, fetchPosts } from '../../api/http/posts';
 
 export const fetchPostsThunk =
   ({ page, size, refreshing = false }) => async (dispatch) => {
@@ -33,19 +36,31 @@ export const fetchPostsThunk =
     }
   };
 
-export const addPostThunk = (params) => async (dispatch) => {
+export const searchPostsThunk =
+  ({ page, size, value, loadMore = false }) => async (dispatch) => {
+    dispatch({ type: SEARCH_POSTS_ACTION_STARTED, loadMore });
+    try {
+      const posts = await fetchPosts({ page, size, searchParam: value });
+      if (loadMore) {
+        dispatch({ type: LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS, data: posts });
+      } else {
+        dispatch({ type: SEARCH_POSTS_ACTION_SUCCESS, data: posts });
+      }
+      return { success: true };
+    } catch (error) {
+      if (!error?.searching) {
+        dispatch({ type: SEARCH_POSTS_ACTION_FAILED });
+        return { success: false };
+      }
+    }
+  };
+
+export const addPostThunk = (params) => async (dispatch, getStore) => {
   dispatch({ type: ADD_POST_ACTION_STARTED });
   try {
-    if (params.files) {
-      await Promise.all(
-        params.files.map((file) => {
-          const reference = storage().ref(file.id);
-          return reference.putFile(file.uri);
-        }),
-      );
-    }
-
-    const post = await addPost(params);
+    const store = getStore();
+    const user = store.user.user;
+    const post = await addPost(params, user);
     dispatch({ type: ADD_POST_ACTION_SUCCESS, data: post });
     return { success: true };
   } catch (error) {
@@ -66,10 +81,12 @@ export const fetchPostThunk = (postId) => async (dispatch) => {
   }
 };
 
-export const addPostCommentThunk = (postId, data) => async (dispatch) => {
+export const addPostCommentThunk = (postId, data) => async (dispatch, getStore) => {
   dispatch({ type: ADD_POST_COMMENT_ACTION_STARTED });
   try {
-    const comment = await addPostComment(postId, data);
+    const store = getStore();
+    const user = store.user.user;
+    const comment = await addPostComment(postId, data, user);
     dispatch({ type: ADD_POST_COMMENT_ACTION_SUCCESS, data: postId });
     return { success: true, data: comment };
   } catch (error) {

@@ -4,8 +4,8 @@ export const addPostValidation = () => {
 
     if (!value?.title) {
       errors.title = 'Это поле не может быть пустым';
-    } else if (value?.title && value?.title?.length < 20) {
-      errors.title = 'Меньше 20ти символов';
+    } else if (value?.title && value?.title?.length < 10) {
+      errors.title = 'Меньше 10ти символов';
     }
 
     return errors;

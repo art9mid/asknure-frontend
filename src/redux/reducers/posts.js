@@ -10,7 +10,11 @@ import {
   FETCH_POST_ACTION_SUCCESS,
   FETCH_POSTS_ACTION_FAILED,
   FETCH_POSTS_ACTION_STARTED,
-  FETCH_POSTS_ACTION_SUCCESS, REFRESH_POSTS_ACTION_SUCCESS,
+  FETCH_POSTS_ACTION_SUCCESS, LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS,
+  REFRESH_POSTS_ACTION_SUCCESS,
+  SEARCH_POSTS_ACTION_FAILED,
+  SEARCH_POSTS_ACTION_STARTED,
+  SEARCH_POSTS_ACTION_SUCCESS,
 } from '../actions';
 
 const initialState = {
@@ -21,6 +25,9 @@ const initialState = {
   postLoading: false,
 
   addCommentLoading: false,
+
+  searchPostsLoading: false,
+  searchPosts: [],
 };
 
 export const posts = (state = initialState, action) => {
@@ -32,20 +39,53 @@ export const posts = (state = initialState, action) => {
     case FETCH_POSTS_ACTION_SUCCESS: {
       const posts = {
         ...action.data,
-        content: state.posts.content ? [...state.posts.content, ...action.data.content.reverse()] : action.data.content.reverse(),
+        content: Array.isArray(state.posts.content)
+          ? state.posts.content.concat(action.data.content)
+          : action.data.content,
       };
       return { ...state, posts, postsLoading: false };
     }
+
     case REFRESH_POSTS_ACTION_SUCCESS: {
       const posts = {
         ...action.data,
-        content: action.data.content.reverse(),
+        content: action.data.content,
       };
       return { ...state, posts, postsLoading: false };
     }
 
     case FETCH_POSTS_ACTION_FAILED: {
       return { ...state, postsLoading: false };
+    }
+
+    case SEARCH_POSTS_ACTION_STARTED: {
+      if (action.loadMore) {
+        return { ...state, searchPostsLoading: true };
+      } else {
+        return { ...state, searchPostsLoading: true, searchPosts: {} };
+      }
+    }
+
+    case SEARCH_POSTS_ACTION_SUCCESS: {
+      const searchPosts = {
+        ...action.data,
+        content: action.data.content,
+      };
+      return { ...state, searchPosts, searchPostsLoading: false };
+    }
+
+    case LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS: {
+      const searchPosts = {
+        ...action.data,
+        content: Array.isArray(state.posts.content)
+          ? state.posts.content.concat(action.data.content)
+          : action.data.content,
+      };
+      return { ...state, searchPosts, searchPostsLoading: false };
+    }
+
+    case SEARCH_POSTS_ACTION_FAILED: {
+      return { ...state, searchPostsLoading: false };
     }
 
     case ADD_POST_ACTION_STARTED: {

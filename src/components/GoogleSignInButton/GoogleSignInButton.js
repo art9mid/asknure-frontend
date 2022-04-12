@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, TouchableOpacity, useColorScheme } from 'react-native';
+import { Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import dynamicStyles from './styles';
 import { GoogleIcon } from '../../SvgComponents';
 import { showErrorNotification } from '../../utils/toast';
 
-export const GoogleSignInButton = () => {
+const GoogleSignInButton = ({ onSingIn }) => {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
 
@@ -14,14 +14,16 @@ export const GoogleSignInButton = () => {
       await GoogleSignin.hasPlayServices();
       const isSignedIn = await GoogleSignin.isSignedIn();
 
+      console.log('isSignedIn', isSignedIn);
+
       if (isSignedIn) {
         await GoogleSignin.signOut();
       }
       await GoogleSignin.signIn();
-      const accessToken = await GoogleSignin.getTokens();
-      console.log(accessToken);
+      const response = await GoogleSignin.getTokens();
+      console.log(response);
+      onSingIn(response);
     } catch (error) {
-      console.log(error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         return;
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -34,8 +36,12 @@ export const GoogleSignInButton = () => {
 
   return (
     <TouchableOpacity onPress={onGoogleSignIn} style={styles.googleBtn}>
-      <GoogleIcon />
-      <Text style={styles.text}>Google</Text>
+      <View style={styles.googleIcon}>
+        <GoogleIcon />
+      </View>
+      <Text style={styles.text}>Войти с Google</Text>
     </TouchableOpacity>
   );
 };
+
+export default GoogleSignInButton;

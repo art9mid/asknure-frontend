@@ -8,6 +8,7 @@ const styles = (colorScheme) => {
     container: {
       height: '100%',
       backgroundColor: colorSet.whiteBackgroundColor,
+      paddingVertical: 10,
     },
     chairItemContainer: {
       paddingVertical: 8,

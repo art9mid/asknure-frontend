@@ -6,7 +6,7 @@ const dynamicStyles = (colorScheme) => {
     container: {
       height: '100%',
       backgroundColor: 'rgba(19,24,32,.8)',
-      justifyContent: 'flex-end',
+      justifyContent: 'center',
     },
     wrapper: {
       borderRadius: 10,

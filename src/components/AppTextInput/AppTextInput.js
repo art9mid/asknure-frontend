@@ -4,14 +4,13 @@ import dynamicStyles from './styles';
 import AppStyles from '../../AppStyles';
 import { ErrorText } from '../index';
 
-function MultilineTextInput({ onChangeText, value, error, style, numberOfLines = 4, ...restProps }) {
+function AppTextInput({ onChangeText, value, error, style, ...restProps }) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
 
   return (
     <>
       <TextInput
-        numberOfLines={numberOfLines}
         onChangeText={(text) => onChangeText(text)}
         value={value}
         style={[styles.input, error && styles.inputError, style]}
@@ -23,4 +22,4 @@ function MultilineTextInput({ onChangeText, value, error, style, numberOfLines =
   );
 }
 
-export default MultilineTextInput;
+export default AppTextInput;

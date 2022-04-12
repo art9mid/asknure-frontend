@@ -11,3 +11,5 @@ export { default as RoundCloseIcon } from './RoundCloseIcon';
 export { default as PencilIcon } from './PencilIcon';
 export { default as BlockIcon } from './BlockIcon';
 export { default as SettingsIcon } from './SettingsIcon';
+export { default as SearchIcon } from './SearchIcon';
+export { default as CirclesCloseIcon } from './CirclesCloseIcon';

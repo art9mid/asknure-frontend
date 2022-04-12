@@ -1,116 +1,90 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { FlatList, ScrollView, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
-import { showErrorNotification } from '../../utils/toast';
-import { fetchUserPostsThunk } from '../../redux/thunks/user';
-import { Loader, QuestionListItem, QuestionListItemSkeleton } from '../../components';
+import { PostsList, QuestionListItemSkeleton, SearchInput } from '../../components';
+import { Pressable, SafeAreaView, Text, useColorScheme, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { searchPostsThunk } from '../../redux/thunks/posts';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Posts = () => {
-  const colorScheme = useColorScheme();
-  const styles = dynamicStyles(colorScheme);
+const SearchScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const [waiting, setWaiting] = React.useState(false);
-  const [page, setPage] = React.useState(1);
-
-  const posts = useSelector((store) => store.user.posts);
-  const postsLoading = useSelector((store) => store.user.postsLoading);
-
-  const handlePostPress = React.useCallback((postId) => {
-    return () => {
-      navigation.navigate('PostScreen', {
-        postId,
-      });
-    };
-  }, []);
-
-  const renderPosts = ({ item }) => {
-    return <QuestionListItem onClick={handlePostPress(item.id)} item={item} />;
-  };
-
-  const onEndReached = async () => {
-    if (!(posts.totalPages === page) && !waiting) {
-      setWaiting(true);
-      await dispatch(fetchUserPostsThunk({ page, size: 20 })).then((response) => {
-        if (response.success) {
-          setPage(page + 1);
-        } else {
-          showErrorNotification('Что-то пошло не так');
-        }
-      });
-      setWaiting(false);
-    }
-  };
-
-  const renderLoading = () => {
-    if (postsLoading) {
-      return <View style={{ height: 80 }}><Loader /></View>;
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      <FlatList
-        style={styles.containerList}
-        data={posts?.content}
-        renderItem={renderPosts}
-        initialNumToRender={10}
-        onEndReachedThreshold={.5}
-        onEndReached={onEndReached}
-        keyExtractor={({ id }) => id.toString()}
-        ListFooterComponent={renderLoading()}
-      />
-    </View>
-  );
-};
-
-const UserPosts = () => {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
-  const dispatch = useDispatch();
-  const [refreshing, setRefreshing] = React.useState(false);
-  const [screenLoading, setScreenLoading] = React.useState(true);
 
-  const loadItems = () => {
-    setRefreshing(true);
-    dispatch(fetchUserPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
-      setRefreshing(false);
-      if (!success) {
-        showErrorNotification('Что-то пошло не так');
-      }
-    });
-  };
+  const posts = useSelector((store) => store.posts.searchPosts);
+  const postsLoading = useSelector((store) => store.posts.searchPostsLoading);
+
+  const [page, setPage] = React.useState(1);
+  const [searchValue, setSearchValue] = React.useState('');
+  const [searching, setSearching] = React.useState(false);
 
   React.useEffect(() => {
-    dispatch(fetchUserPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
-      setScreenLoading(false);
-      if (!success) {
-        showErrorNotification('Что-то пошло не так');
-      }
-    });
-  }, []);
+    if (searchValue.length >= 3) {
+      setPage(1);
+      setSearching(true);
+      dispatch(searchPostsThunk({ page: 0, size: 20, value: searchValue })).then((response) => {
+        if (response.success) {
+          setSearching(false);
+        }
+      });
+    }
+  }, [searchValue]);
 
-  if (screenLoading) {
-    return <QuestionListItemSkeleton />;
-  }
+  const loadItems = () => {
+    if (!posts.last) {
+      dispatch(searchPostsThunk({
+          page,
+          size: 20,
+          value: searchValue,
+          loadMore: true,
+        }),
+      ).then(() => {
+        setPage(page + 1);
+      });
+    }
+  };
 
   return (
-    <FlatList
-      data={[]}
-      keyExtractor={(e, i) => 'dom' + i.toString()}
-      ListEmptyComponent={null}
-      renderItem={null}
-      refreshing={refreshing}
-      onRefresh={loadItems}
-      ListFooterComponent={() => (
-        <ScrollView style={styles.container}>
-          <Posts />
-        </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.searchWrapper}>
+        <SearchInput
+          style={{ container: styles.input }}
+          value={searchValue}
+          placeholder={'Поиск'}
+          onChangeText={setSearchValue}
+          autoFocus
+        />
+        <Pressable style={styles.searchCloseContainer} onPress={navigation.goBack}>
+          <Text style={styles.searchCloseText}>Закрыть</Text>
+        </Pressable>
+      </View>
+      {searching ? <QuestionListItemSkeleton /> : searchValue.length < 3 ? (
+        <View style={styles.emptyContainer}>
+          <View style={styles.box}>
+            <Text style={styles.boxText}>Aa</Text>
+          </View>
+          <Text style={styles.emptySearchText}>
+            Начните вводить атора или заглавие поста.
+            ёМинимаьное количество символов для поиска - 3
+          </Text>
+        </View>
+      ) : posts.content.length ? (
+        <View style={{ paddingTop: 20, paddingBottom: 60 }}>
+          <PostsList fetchItems={loadItems} loading={postsLoading} posts={posts} stack={'MainStack'} />
+        </View>
+      ) : (
+        <View style={styles.emptyContainer}>
+          <View style={styles.box}>
+            <Text style={styles.boxText}>Qw</Text>
+          </View>
+          <Text style={styles.emptySearchText}>
+            Ничего не найдено, введите другой запрос
+          </Text>
+        </View>
       )}
-    />
+    </SafeAreaView>
   );
 };
 
-export default UserPosts;
+export default SearchScreen;

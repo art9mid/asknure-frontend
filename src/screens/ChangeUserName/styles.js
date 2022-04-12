@@ -7,25 +7,13 @@ const styles = (colorScheme) => {
   return StyleSheet.create({
     container: {
       height: '100%',
-      backgroundColor: colorSet.whiteBackgroundColor,
+      padding: 15,
+      backgroundColor: colorSet.mainThemeBackgroundColor,
     },
-    chairItemContainer: {
-      paddingVertical: 8,
-      paddingHorizontal: 20,
-      backgroundColor: colorSet.grey1,
-      marginVertical: 20,
-      marginHorizontal: 5,
-      borderRadius: 5,
-    },
-    chairItemText: {
-      fontSize: 14,
-      color: colorSet.textColor,
-    },
-    containerList: {
-      paddingHorizontal: 15,
-    },
-    chairContainer: {
-      paddingHorizontal: 5,
+    text: {
+      marginBottom: 20,
+      fontSize: 12,
+      color: colorSet.blackSubTextColor,
     },
   });
 };
