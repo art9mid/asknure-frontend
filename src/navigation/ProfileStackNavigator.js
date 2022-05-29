@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useColorScheme } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Profile } from '../screens';
-import { LeftHeaderText, SearchHeaderRight } from '../components';
-import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import dynamicStyles from './styles';
+import { LeftHeaderText, SettingsHeaderRight } from '../components';
+import { LocalizationContext } from '../localization';
 
 const Stack = createStackNavigator();
 
 export default function ProfileStackNavigator() {
+  const { t } = useContext(LocalizationContext);
+
   const colorSchema = useColorScheme();
   const styles = dynamicStyles(colorSchema);
   return (
@@ -18,8 +21,8 @@ export default function ProfileStackNavigator() {
         options={{
           headerTitle: '',
           headerStyle: styles.headerStyle,
-          headerRight: () => <SearchHeaderRight />,
-          headerLeft: () => <LeftHeaderText>Профиль</LeftHeaderText>,
+          headerRight: () => <SettingsHeaderRight />,
+          headerLeft: () => <LeftHeaderText>{t('Profile')}</LeftHeaderText>,
         }}
       />
     </Stack.Navigator>

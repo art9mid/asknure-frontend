@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Image, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
 import FileIcon from '../../SvgComponents/FileIcon';
@@ -6,8 +6,11 @@ import { showErrorNotification } from '../../utils/toast';
 import { RoundCloseIcon, RoundPlusIcon } from '../../SvgComponents';
 import { opacityLayoutAnimation } from '../../utils/layoutAnimations';
 import filePicker, { FILE_SIZE_CODE, MAX_FILE_SIZE } from '../../utils/filePicker';
+import { LocalizationContext } from '../../localization';
 
 const FilePicker = ({ contentContainerStyle, files, setFiles }) => {
+  const { t } = useContext(LocalizationContext);
+
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
 
@@ -63,7 +66,7 @@ const FilePicker = ({ contentContainerStyle, files, setFiles }) => {
         {Array.isArray(files) && files.map(renderFile)}
         <Pressable style={styles.pickFileButton} onPress={handlePickFile}>
           <RoundPlusIcon />
-          <Text style={styles.text}>Добавить</Text>
+          <Text style={styles.text}>{t('Add')}</Text>
         </Pressable>
       </ScrollView>
     </View>

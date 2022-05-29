@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
@@ -7,8 +7,11 @@ import { useFormikWithErrorAutoClear } from '../../utils/formik';
 import { updateUserInfoThunk } from '../../redux/thunks/user';
 import { showErrorNotification, showSuccessNotification } from '../../utils/toast';
 import { useNavigation } from '@react-navigation/native';
+import { LocalizationContext } from '../../localization';
 
 const ChangeUserName = () => {
+  const { t } = useContext(LocalizationContext);
+
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
@@ -23,17 +26,17 @@ const ChangeUserName = () => {
     },
     validate: (values) => {
       if (!values.username) {
-        return { username: 'Введите имя пользователя' };
+        return { username: t('Enter username') };
       }
       return {};
     },
     onSubmit: (value) => {
       dispatch(updateUserInfoThunk(value)).then(({ success }) => {
         if (success) {
-          showSuccessNotification('Имя пользователя успешно обновлен');
+          showSuccessNotification(t('Username updated successfully'));
           navigation.navigate('Profile');
         } else {
-          showErrorNotification('Что-то пошло не так!');
+          showErrorNotification(t('Something went wrong!'), t('Please try again later'));
         }
       });
     },
@@ -50,11 +53,11 @@ const ChangeUserName = () => {
           maxLength={60}
         />
         <Text style={styles.text}>
-          Под этим именем вы будете создавать посты и писать комментарии. Все пользователи будут видит ваше новое имя!
+          {t('Under this name you will create posts and write comments')}
         </Text>
       </View>
       <AppBtn onPress={formik.handleSubmit} disabled={!formik.isValid || user.username === formik.values.username}>
-        Сохранить
+        {t('Save')}
       </AppBtn>
     </View>
   );

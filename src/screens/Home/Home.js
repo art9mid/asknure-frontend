@@ -1,11 +1,14 @@
 import React from 'react';
+import Carousel from 'react-native-snap-carousel';
 import { useDispatch, useSelector } from 'react-redux';
-import { FlatList, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
+import { FlatList, Linking, Pressable, ScrollView, Text, useColorScheme, View, Dimensions } from 'react-native';
 import dynamicStyles from './styles';
+import departments from '../../core/dummyData/departments.json';
 import { showErrorNotification } from '../../utils/toast';
 import { fetchPostsThunk } from '../../redux/thunks/posts';
-import { openLinkInAppBrowser } from '../../utils/customTab';
 import { QuestionListItemSkeleton, PostsList } from '../../components';
+
+const deviceWidth = Dimensions.get('window').width;
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -47,42 +50,35 @@ const Home = () => {
     }
   };
 
-  const dummyData = [
-    {
-      name: 'КИТАМ',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'СТas dasd asdsa d',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'РТas dasd a',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'KOSDas das da',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'FDFDFDas dsa da',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-    {
-      name: 'FDWEWE',
-      link: 'https://nure.ua/department/kafedra-kompyuterno-integrirovannyih-tehno-logiy-avtomatizatsii-i-mehatroniki-kitam',
-    },
-  ];
-
   const renderItem = ({ item }) => {
     return (
-      <Pressable onPress={() => openLinkInAppBrowser(item.link)}>
+      <Pressable onPress={() => Linking.openURL(item.link)}>
         <View style={styles.chairItemContainer}>
           <Text style={styles.chairItemText}>{item.name}</Text>
         </View>
       </Pressable>
     );
   };
+
+  const slides = [
+    { title: 'Ewewew', image: '' },
+  ];
+
+  function renderSlide({ item }) {
+    return (
+      <View style={styles.slideContainer}>
+        <FastImage
+          resizeMode={FastImage.resizeMode.contain}
+          source={{ uri: item?.mobile_image, priority: FastImage.priority.high }}
+          style={styles.slideImage}
+        />
+        <View style={[styles.slideInfo, item?.shadow && styles.slideInfoShadow]}>
+          <Text style={styles.slideTitle}>{item.title}</Text>
+          <Text style={styles.slideSubText}>{item.text_on_image}</Text>
+        </View>
+      </View>
+    );
+  }
 
   if (screenLoading) {
     return <QuestionListItemSkeleton />;
@@ -98,11 +94,31 @@ const Home = () => {
       onRefresh={refreshItems}
       ListFooterComponent={() => (
         <ScrollView style={styles.container}>
+          <Carousel
+            loop
+            autoplay
+            horizontal
+            data={[]}
+            useScrollView
+            itemHeight={200}
+            autoplayDelay={1500}
+            scrollEnabled={false}
+            inactiveSlideScale={1}
+            autoplayInterval={7000}
+            inactiveSlideOpacity={1}
+            renderItem={renderSlide}
+            firstItem={slides.length}
+            loopClonesPerSide={slides.length}
+            initialScrollIndex={slides.length}
+            itemWidth={deviceWidth}
+            sliderWidth={deviceWidth}
+            contentContainerCustomStyle={styles.carouselContainer}
+          />
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.chairContainer}
-            data={dummyData}
+            data={departments}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
           />

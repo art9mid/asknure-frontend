@@ -62,6 +62,12 @@ export const images = {
   foreground: require('../assets/foreground.png'),
 };
 
+export const flagSet = {
+  ua: require('../assets/flags/ua.png'),
+  en: require('../assets/flags/us.png'),
+};
+
 export default {
   colorSet,
+  flagSet,
 };

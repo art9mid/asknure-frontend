@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pressable, Animated, useColorScheme, Text, View } from 'react-native';
 import dynamicStyles from './styles';
@@ -9,8 +9,11 @@ import { addPostCommentThunk } from '../../redux/thunks/posts';
 import { useFormikWithErrorAutoClear } from '../../utils/formik';
 import { opacityLayoutAnimation } from '../../utils/layoutAnimations';
 import { AppTitle, Loader, MultilineTextInput } from '../../components';
+import { LocalizationContext } from '../../localization';
 
 const PostAnswer = ({ postId, setPost, post }) => {
+  const { t } = useContext(LocalizationContext);
+
   const dispatch = useDispatch();
   const colorSchema = useColorScheme();
   const styles = dynamicStyles(colorSchema);
@@ -73,12 +76,12 @@ const PostAnswer = ({ postId, setPost, post }) => {
 
   return (
     <>
-      <AppTitle style={styles.title}>Добавить ответ 🙋</AppTitle>
+      <AppTitle style={styles.title}>{t('Add answer')} 🙋</AppTitle>
       <View style={{ height: 210, position: 'relative' }}>
         {loading && <Loader opacity />}
         {!user && (
           <Text style={{ ...styles.userText, paddingBottom: 10 }}>
-            Чтобы прокоментировать пост, нужно зарегистрироваться
+            {t('You must be logged in to comment on a post')}
           </Text>
         )}
         <MultilineTextInput
@@ -87,7 +90,7 @@ const PostAnswer = ({ postId, setPost, post }) => {
           editable={!!user}
           multiline
           numberOfLines={6}
-          placeholder={'Добавьте свой ответ'}
+          placeholder={t('Add your answer')}
           maxLength={MAX_POST_LENGTH}
           style={{ paddingBottom: 45 }}
         />

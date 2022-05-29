@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FlatList, Image, Pressable, SafeAreaView, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
@@ -7,23 +7,25 @@ import { AppBtn, Loader } from '../../components';
 import { updateUserInfoThunk } from '../../redux/thunks/user';
 import { useNavigation } from '@react-navigation/native';
 import { showErrorNotification, showSuccessNotification } from '../../utils/toast';
+import { LocalizationContext } from '../../localization';
 
 const ChangeUserAvatar = () => {
+  const { t } = useContext(LocalizationContext);
+
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const dispatch = useDispatch();
 
-  const user = useSelector((store) => store.user.user);
   const loading = useSelector((store) => store.user.updateUserLoading);
 
   const handleChangeAvatar = (id) => {
     dispatch(updateUserInfoThunk({ avatar: id })).then(({ success }) => {
       if (success) {
-        showSuccessNotification('Аватарка успешно обновлена');
+        showSuccessNotification(t('Avatar updated successfully'));
         navigation.navigate('Profile');
       } else {
-        showErrorNotification('Что-то пошло не так!');
+        showErrorNotification(t('Something went wrong!'), t('Please try again later'));
       }
     });
   };

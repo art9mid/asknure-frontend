@@ -2,44 +2,33 @@ import { StyleSheet } from 'react-native';
 import AppStyles from '../../AppStyles';
 
 const dynamicStyles = (colorScheme) => {
-  const icon = {
-    width: 22,
-    height: 22,
-    resizeMode: 'contain',
-  };
-
-  const iconContainer = {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 45,
-    height: 45,
-    marginRight: 12,
-    backgroundColor: AppStyles.colorSet[colorScheme].pink,
-    borderRadius: 10,
-  };
-
   return new StyleSheet.create({
     listContent: {
-      flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
     },
     listIcon: {
-      ...icon,
-      tintColor: AppStyles.colorSet[colorScheme].blackTextColor,
+      width: 22,
+      height: 22,
+      resizeMode: 'contain',
     },
     iconContainer: {
-      ...iconContainer,
-    },
-    iconContainerModified: {
-      ...iconContainer,
-      backgroundColor: 'transparent',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 45,
+      height: 45,
+      marginRight: 12,
+      borderRadius: 10,
     },
     listText: {
       fontSize: 17,
       color: AppStyles.colorSet[colorScheme].blackTextColor,
       paddingRight: 20,
-      flex: 1,
+    },
+    listBigIcon: {
+      width: 45,
+      height: 45,
+      borderRadius: 45,
     },
     list: {
       minHeight: 62,
@@ -54,6 +43,7 @@ const dynamicStyles = (colorScheme) => {
     rightContent: {
       flexDirection: 'row',
       alignItems: 'center',
+      marginRight: 10
     },
   });
 };

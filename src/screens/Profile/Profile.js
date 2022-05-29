@@ -1,29 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Image, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
-import AppStyles, { avatars, images } from '../../AppStyles';
 import RegisterFlow from './RegisterFlow/RegisterFlow';
+import { BlockIcon, LogoutIcon, PencilIcon } from '../../SvgComponents';
+import AppStyles, { avatars, images } from '../../AppStyles';
 import { AppTitle, MenuListItem } from '../../components';
-import { BlockIcon, PencilIcon } from '../../SvgComponents';
+import { LOGOUT } from '../../redux/actions';
+import { LocalizationContext } from '../../localization';
 
 const Profile = () => {
+  const { t } = useContext(LocalizationContext);
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const user = useSelector((state) => state.user.user);
-  const userLoading = useSelector((state) => state.user.userLoading);
 
   if (!user) {
     return <RegisterFlow />;
   }
 
   const menuNavigation = {
+    logout() {
+      dispatch({ type: LOGOUT });
+    },
     userPosts: () => {
-      // dispatch(refreshTokenThunk());
       navigation.navigate('MainStack', { screen: 'UserPostsScreen' });
+    },
+    settings: () => {
+      navigation.navigate('MainStack', { screen: 'Settings' });
     },
     userSettings: () => {
       navigation.navigate('MainStack', { screen: 'UserSettings' });
@@ -52,11 +60,17 @@ const Profile = () => {
         <Image source={images.foreground} style={styles.foregroundImage} />
       </View>
       <View style={{ paddingTop: 10 }}>
-        <AppTitle>Меню профиля</AppTitle>
+        <AppTitle>{t('Profile menu')}</AppTitle>
         <MenuListItem
           onPress={menuNavigation.userPosts}
           icon={<BlockIcon color={AppStyles.colorSet[colorScheme].textColor} />}>
-          Мои посты
+          {t('My questions')}
+        </MenuListItem>
+        <MenuListItem
+          noArrow
+          onPress={menuNavigation.logout}
+          icon={<LogoutIcon color={AppStyles.colorSet[colorScheme].textColor} />}>
+          {t('Logout')}
         </MenuListItem>
       </View>
     </ScrollView>

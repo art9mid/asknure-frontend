@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
@@ -7,8 +7,11 @@ import { SettingsIcon } from '../../SvgComponents';
 import AppStyles from '../../AppStyles';
 import { useNavigation } from '@react-navigation/native';
 import { LOGOUT } from '../../redux/actions';
+import { LocalizationContext } from '../../localization';
 
 const UserSettings = () => {
+  const { t } = useContext(LocalizationContext);
+
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
@@ -33,18 +36,12 @@ const UserSettings = () => {
       <MenuListItem
         onPress={menuNavigation.userName}
         icon={<SettingsIcon color={AppStyles.colorSet[colorScheme].textColor} />}>
-        Изменить имя
+        {t('Change name')}
       </MenuListItem>
       <MenuListItem
         onPress={menuNavigation.userAvatar}
         icon={<SettingsIcon color={AppStyles.colorSet[colorScheme].textColor} />}>
-        Изменить аватарку
-      </MenuListItem>
-      <MenuListItem
-        noArrow
-        onPress={logout}
-        icon={<SettingsIcon color={AppStyles.colorSet[colorScheme].textColor} />}>
-        Выйти
+        {t('Change avatar')}
       </MenuListItem>
     </View>
   );

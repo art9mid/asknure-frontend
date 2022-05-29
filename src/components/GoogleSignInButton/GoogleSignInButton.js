@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import dynamicStyles from './styles';
 import { GoogleIcon } from '../../SvgComponents';
 import { showErrorNotification } from '../../utils/toast';
+import { LocalizationContext } from '../../localization';
 
 const GoogleSignInButton = ({ onSingIn }) => {
+  const { t } = useContext(LocalizationContext);
+
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
 
@@ -39,7 +42,9 @@ const GoogleSignInButton = ({ onSingIn }) => {
       <View style={styles.googleIcon}>
         <GoogleIcon />
       </View>
-      <Text style={styles.text}>Войти с Google</Text>
+      <Text style={styles.text}>
+        {t('Sign in with Google')}
+      </Text>
     </TouchableOpacity>
   );
 };

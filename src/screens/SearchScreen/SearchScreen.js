@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import dynamicStyles from './styles';
 import { PostsList, QuestionListItemSkeleton, SearchInput } from '../../components';
 import { Pressable, SafeAreaView, Text, useColorScheme, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { searchPostsThunk } from '../../redux/thunks/posts';
 import { useDispatch, useSelector } from 'react-redux';
+import { LocalizationContext } from '../../localization';
 
 const SearchScreen = () => {
+  const { t } = useContext(LocalizationContext);
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
@@ -51,12 +54,14 @@ const SearchScreen = () => {
         <SearchInput
           style={{ container: styles.input }}
           value={searchValue}
-          placeholder={'Поиск'}
+          placeholder={t('Search')}
           onChangeText={setSearchValue}
           autoFocus
         />
         <Pressable style={styles.searchCloseContainer} onPress={navigation.goBack}>
-          <Text style={styles.searchCloseText}>Закрыть</Text>
+          <Text style={styles.searchCloseText}>
+            {t('Close')}
+          </Text>
         </Pressable>
       </View>
       {searching ? <QuestionListItemSkeleton /> : searchValue.length < 3 ? (
@@ -65,11 +70,10 @@ const SearchScreen = () => {
             <Text style={styles.boxText}>Aa</Text>
           </View>
           <Text style={styles.emptySearchText}>
-            Начните вводить атора или заглавие поста.
-            ёМинимаьное количество символов для поиска - 3
+            {t('Start search')}
           </Text>
         </View>
-      ) : posts.content.length ? (
+      ) : posts.content?.length ? (
         <View style={{ paddingTop: 20, paddingBottom: 60 }}>
           <PostsList fetchItems={loadItems} loading={postsLoading} posts={posts} stack={'MainStack'} />
         </View>
@@ -79,7 +83,7 @@ const SearchScreen = () => {
             <Text style={styles.boxText}>Qw</Text>
           </View>
           <Text style={styles.emptySearchText}>
-            Ничего не найдено, введите другой запрос
+            {t('Nothing found, please enter another query')}
           </Text>
         </View>
       )}

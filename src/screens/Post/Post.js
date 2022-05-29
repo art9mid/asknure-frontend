@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -10,8 +10,11 @@ import { showErrorNotification } from '../../utils/toast';
 import { fetchPostThunk } from '../../redux/thunks/posts';
 import { AppTitle, Comment, HeaderTitle, Loader, ShareButton } from '../../components';
 import buildLink from '../../utils/buildLink';
+import { LocalizationContext } from '../../localization';
 
 const Post = (props) => {
+  const { t } = useContext(LocalizationContext);
+
   const dispatch = useDispatch();
   const colorSchema = useColorScheme();
   const navigation = useNavigation();
@@ -27,7 +30,7 @@ const Post = (props) => {
         if (response.success && response.data) {
           setPost(response.data);
         } else {
-          showErrorNotification('Что-то пошло не так!', 'Повторите попытку позже');
+          showErrorNotification(t('Something went wrong!'), t('Please try again later'));
           navigation.navigate('HomeScreen');
         }
       });
@@ -64,7 +67,7 @@ const Post = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.tenderHeaderContainer}>
-        <Text style={styles.userText}>Ответы: {post.comments?.length}</Text>
+        <Text style={styles.userText}>{t('Answers')}: {post.comments?.length}</Text>
         <Text style={styles.userText}>{moment(post.createdAt).format('DD.MM.YYYY')}</Text>
       </View>
       <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'} style={styles.body}>

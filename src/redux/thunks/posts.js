@@ -17,7 +17,7 @@ import {
   SEARCH_POSTS_ACTION_STARTED,
   SEARCH_POSTS_ACTION_SUCCESS,
 } from '../actions';
-import { addPost, addPostComment, fetchPost, fetchPosts } from '../../api/http/posts';
+import { addPost, addPostComment, fetchPost, fetchPosts, uploadPostFile } from '../../api/http/posts';
 
 export const fetchPostsThunk =
   ({ page, size, refreshing = false }) => async (dispatch) => {
@@ -55,15 +55,25 @@ export const searchPostsThunk =
     }
   };
 
-export const addPostThunk = (params) => async (dispatch, getStore) => {
+export const addPostThunk = (params, files) => async (dispatch, getStore) => {
   dispatch({ type: ADD_POST_ACTION_STARTED });
   try {
     const store = getStore();
     const user = store.user.user;
     const post = await addPost(params, user);
+    if (files) {
+      const filesToSend = files.map((file) => {
+        console.log(file.uri);
+        const formData = new FormData();
+        formData.append('file', file.uri);
+        return uploadPostFile(user, post.id, formData);
+      });
+      await Promise.all(filesToSend);
+    }
     dispatch({ type: ADD_POST_ACTION_SUCCESS, data: post });
     return { success: true };
   } catch (error) {
+    console.log(error);
     dispatch({ type: ADD_POST_ACTION_FAILED });
     return { success: false, error };
   }

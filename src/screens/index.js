@@ -6,3 +6,5 @@ export { default as UserPosts } from './UserPosts/UserPosts';
 export { default as ChangeUserAvatar } from './ChangeUserAvatar/ChangeUserAvatar';
 export { default as ChangeUserName } from './ChangeUserName/ChangeUserName';
 export { default as UserSettings } from './UserSettings/UserSettings';
+export { default as Settings } from './Settings/Settings';
+export { default as Language } from './Language/Language';

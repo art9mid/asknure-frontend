@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import AppStyles from '../../AppStyles';
 
 const styles = (colorScheme) => {
@@ -8,6 +8,42 @@ const styles = (colorScheme) => {
     container: {
       height: '100%',
       backgroundColor: colorSet.whiteBackgroundColor,
+    },
+    carouselContainer: {
+      height: 450,
+    },
+    slideContainer: {
+      position: 'relative',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    slideInfo: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    slideTitle: {
+      maxWidth: '80%',
+      fontSize: 20,
+      color: AppStyles.colorSet[colorScheme].white,
+      fontWeight: '700',
+      marginBottom: 20,
+      textAlign: 'center',
+    },
+    slideSubText: {
+      maxWidth: '80%',
+      color: AppStyles.colorSet[colorScheme].white,
+      fontSize: 14,
+      textAlign: 'center',
+    },
+    slideImage: {
+      width: '100%',
+      height: Dimensions.get('window').height * 0.33,
     },
     chairItemContainer: {
       paddingVertical: 8,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
@@ -8,8 +8,11 @@ import { useFormikWithErrorAutoClear } from '../../utils/formik';
 import { addPostValidation } from '../../core/validation/addPostValidation';
 import { showErrorNotification, showSuccessNotification } from '../../utils/toast';
 import { MultilineTextInput, AppTitle, AppBtn, Loader, FilePicker, AppModal } from '../../components';
+import { LocalizationContext } from '../../localization';
 
 const AddPost = (props) => {
+  const { t } = useContext(LocalizationContext);
+
   const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
@@ -26,14 +29,12 @@ const AddPost = (props) => {
         title: '',
       },
       onSubmit: (params) => {
-        dispatch(addPostThunk({ ...params })).then((response) => {
+        dispatch(addPostThunk({ ...params }, files)).then((response) => {
           if (response.success) {
-            showSuccessNotification('Пост успешно создан', 'Ваш пост видят все пользователи форума хнурэ!');
+            showSuccessNotification(t('Post successfully created'), t('Your post is visible to all users of the ASKNURE forum!'));
             navigation.navigate('Home');
-          } else if (response?.error?.code === 'storage/file-not-found') {
-            showErrorNotification('Путь к локальному файлу утрачен', 'Убедитесь что вы не удалили файл с устройства');
           } else {
-            showErrorNotification('Что-то пошло не так!', 'Попробуйте повторить попытку позже');
+            showErrorNotification(t('Something went wrong!'), t('Please try again later'));
           }
         });
       },
@@ -55,23 +56,24 @@ const AddPost = (props) => {
   return (
     <View style={styles.container}>
       <AppModal visible={!authorized}>
-        <Text style={styles.modalTitle}>Вы не авторизированы!</Text>
+        <Text style={styles.modalTitle}>{t('You are not authorized')}</Text>
         <Text style={styles.modalDescription}>
-          Создайте аккаунт чтобы получить доступ к всем функциям asknure. Создать аккаунт можно перейдя в профиль
-          пользователя или нажав на кнопку "Создать аккаунт"
+          {t('Create an account to access all ASKNURE features')}
         </Text>
         <View style={styles.modalFooter}>
           <Pressable style={styles.modalBack} onPress={handleBack}>
-            <Text style={styles.modalBackText}>Надаз</Text>
+            <Text style={styles.modalBackText}>
+              {t('Back')}
+            </Text>
           </Pressable>
           <AppBtn onPress={handleCreateUser} secondary style={{ button: { height: 45 } }}>
-            Создать аккаунт
+            {t('Create an account')}
           </AppBtn>
         </View>
       </AppModal>
       {loading && <Loader opacity text={'Загружаем данные'} />}
       <ScrollView contentContainerStyle={{ flex: 1 }}>
-        <AppTitle style={styles.title}>👋 Спросить людей</AppTitle>
+        <AppTitle style={styles.title}>👋 {t('Ask people')}</AppTitle>
         <MultilineTextInput
           onBlur={formik.handleBlur('title')}
           onChangeText={formik.onValueChange('title')}
@@ -82,11 +84,11 @@ const AddPost = (props) => {
           numberOfLines={6}
           placeholder={'Спросите у людей с ХНУРЭ …'}
         />
-        <AppTitle>📁 Добавить изображение/документы</AppTitle>
+        <AppTitle>📁 {t('Add image or documents')}</AppTitle>
         <FilePicker contentContainerStyle={{ paddingVertical: 5 }} files={files} setFiles={setFiles} />
       </ScrollView>
       <AppBtn style={{ container: { paddingVertical: 15 } }} onPress={formik.handleSubmit}>
-        Опубликовать
+        {t('Publish')}
       </AppBtn>
     </View>
   );
