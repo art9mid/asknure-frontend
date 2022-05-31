@@ -8,17 +8,39 @@ const dynamicStyles = (colorScheme) => {
       backgroundColor: colorSet.whiteBackgroundColor,
     },
     tabBarWrapper: {
+      borderTopWidth: 1,
+      borderTopColor: colorSet.grey3,
       height: 60,
-      margin: 10,
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      borderRadius: 10,
       flexDirection: 'row',
-      backgroundColor: colorSet.tabBarColor,
+    },
+    activeTabIndicatorContainer: {
+      position: 'absolute',
+      top: 0,
+      alignItems: 'center',
+      zIndex: 2,
+    },
+    activeTabIndicator: {
+      width: 70,
+      height: 3,
+      backgroundColor: colorSet.activeIconColor,
+      borderBottomRightRadius: 5,
+      borderBottomLeftRadius: 5,
     },
     iconWrapper: {
+      position: 'relative',
       height: 80,
       justifyContent: 'center',
+      alignItems: 'center',
+    },
+    tabBarText: {
+      fontSize: 12,
+      color: colorSet.textColor,
+      marginTop: 3,
+    },
+    tabBarTextActive: {
+      color: colorSet.activeIconColor,
     },
     itemContainer: {
       flex: 1,

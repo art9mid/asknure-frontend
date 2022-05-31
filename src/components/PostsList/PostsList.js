@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Text, View, VirtualizedList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Loader, QuestionListItem } from '../index';
 
@@ -35,10 +35,13 @@ const PostsList = ({ posts, loading, fetchItems, stack = 'Home' }) => {
   };
 
   return (
-    <FlatList
+    <VirtualizedList
+      scrollEnabled={false}
       style={{ paddingHorizontal: 15 }}
       data={posts?.content}
+      getItemCount={(data) => data.length}
       renderItem={renderPosts}
+      getItem={(data, index) => data[index]}
       initialNumToRender={6}
       maxToRenderPerBatch={40}
       onEndReachedThreshold={0.5}

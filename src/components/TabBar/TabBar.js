@@ -1,10 +1,22 @@
 import React from 'react';
-import { Pressable, useColorScheme, View, SafeAreaView } from 'react-native';
+import { Pressable, useColorScheme, View, SafeAreaView, Text, Animated, Dimensions } from 'react-native';
 import dynamicStyles from './styles';
 
 function TabBar({ state, descriptors, navigation }) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
+
+  const tabWidth = Dimensions.get('window').width / state.routes.length;
+
+  const [translateValue] = React.useState(new Animated.Value(0));
+
+  React.useEffect(() => {
+    Animated.spring(translateValue, {
+      toValue: state.index * tabWidth,
+      velocity: 10,
+      useNativeDriver: true,
+    }).start();
+  }, [state.index]);
 
   function renderTab(route, index) {
     const { options } = descriptors[route.key];
@@ -40,6 +52,9 @@ function TabBar({ state, descriptors, navigation }) {
         style={styles.itemContainer}>
         <View style={styles.iconWrapper}>
           {options.tabBarIcon({ active: isFocused })}
+          {!!options.tabBarLabel && (
+            <Text style={[styles.tabBarText, isFocused && styles.tabBarTextActive]}>{options.tabBarLabel}</Text>
+          )}
         </View>
       </Pressable>
     );
@@ -47,6 +62,10 @@ function TabBar({ state, descriptors, navigation }) {
 
   return (
     <SafeAreaView style={styles.tabBarContainer}>
+      <Animated.View
+        style={[styles.activeTabIndicatorContainer, { width: tabWidth, transform: [{ translateX: translateValue }] }]}>
+        <View style={styles.activeTabIndicator} />
+      </Animated.View>
       <View style={styles.tabBarWrapper}>{state.routes.map(renderTab)}</View>
     </SafeAreaView>
   );

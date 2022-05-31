@@ -17,7 +17,7 @@ function QuestionListItem({ item, onClick }) {
   }
 
   return (
-    <Pressable onPress={onClick} style={[styles.container, { borderLeftColor: item.color || generateRandomColor() }]}>
+    <Pressable onPress={onClick} style={[styles.container]}>
       <View style={styles.userContainer}>
         {!item.photo ?
           <UserAvatarIcon color={AppStyles.colorSet[colorScheme].mainThemeColor} /> : /http/.test(item.photo) ? (

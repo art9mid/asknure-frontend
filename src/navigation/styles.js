@@ -5,13 +5,13 @@ const dynamicStyles = (colorScheme) => {
   const styles = AppStyles.colorSet[colorScheme];
   return new StyleSheet.create({
     plusItemContainer: {
-      backgroundColor: styles.white,
+      backgroundColor: styles.activeIconColor,
       height: 40,
       width: 65,
       borderRadius: 10,
       justifyContent: 'center',
       alignItems: 'center',
-      shadowColor: styles.white,
+      shadowColor: styles.activeIconColor,
       shadowOffset: {
         width: 0,
         height: 2,
@@ -24,7 +24,7 @@ const dynamicStyles = (colorScheme) => {
       fontWeight: '700',
       fontSize: 25,
       paddingBottom: 3,
-      color: styles.tabBarColor,
+      color: styles.whiteText,
     },
     headerStyle: {
       borderBottomWidth: 1,

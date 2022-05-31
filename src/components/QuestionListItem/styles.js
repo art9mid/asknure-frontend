@@ -13,6 +13,7 @@ const dynamicStyles = (colorScheme) => {
       borderRadius: 5,
       marginVertical: 5,
       borderWidth: 1,
+      borderLeftColor: AppStyles.colorSet[colorScheme].blue,
       borderTopColor: AppStyles.colorSet[colorScheme].grey3,
       borderBottomColor: AppStyles.colorSet[colorScheme].grey3,
       borderRightColor: AppStyles.colorSet[colorScheme].grey3,

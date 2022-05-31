@@ -1,16 +1,49 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Carousel from 'react-native-snap-carousel';
 import { useDispatch, useSelector } from 'react-redux';
-import { FlatList, Linking, Pressable, ScrollView, Text, useColorScheme, View, Dimensions } from 'react-native';
+import { FlatList, Linking, Pressable, ScrollView, Text, useColorScheme, View, Dimensions, Image } from 'react-native';
 import dynamicStyles from './styles';
-import departments from '../../core/dummyData/departments.json';
+import { FilterIcon } from '../../SvgComponents';
+import { LocalizationContext } from '../../localization';
 import { showErrorNotification } from '../../utils/toast';
 import { fetchPostsThunk } from '../../redux/thunks/posts';
 import { QuestionListItemSkeleton, PostsList } from '../../components';
 
 const deviceWidth = Dimensions.get('window').width;
 
+const slides = [
+  {
+    title: 'Горячие линии ПК',
+    shadow: true,
+    text_on_image: 'На время действия правового режима военного положения в Украине, работают телефоны горячей линии ХНУРЭ по вступительной кампании: +380974189953, +380954201113.',
+    image: require('../../../assets/banner/1.jpg'),
+    link: 'https://nure.ua/ru/branch/priyomnaya-komissiya',
+  },
+  {
+    title: 'Перечень специальностей',
+    shadow: true,
+    text_on_image: 'Предлагаем ознакомиться с перечнем специальностей и образовательных программ  Харьковского национального университета радиоэлектроники!',
+    image: require('../../../assets/banner/2.jpg'),
+    link: 'https://nure.ua/ru/abiturientam/spetsialnosti-i-spetsializatsii',
+  },
+  {
+    title: 'Курсы на базе ХНУРЭ',
+    shadow: true,
+    text_on_image: 'Образовательная инициатива ХНУРЭ, которая даёт дополнительные возможности профессионального и творческого развития!',
+    image: require('../../../assets/banner/3.jpg'),
+    link: 'https://nure.ua/ru/skills-school',
+  },
+  {
+    title: 'Информационная линия',
+    shadow: true,
+    text_on_image: 'Вниманию работников и соискателей высшего образования! В Харьковском национальном университете радиоэлектроники заработала информационная телефонная линия.',
+    image: require('../../../assets/banner/4.jpg'),
+    link: 'https://nure.ua/informacijna-linija-harkivskogo-nacionalnogo-universitetu-radioelektroniki',
+  },
+];
+
 const Home = () => {
+  const { t } = useContext(LocalizationContext);
   const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
@@ -60,23 +93,18 @@ const Home = () => {
     );
   };
 
-  const slides = [
-    { title: 'Ewewew', image: '' },
-  ];
-
   function renderSlide({ item }) {
     return (
-      <View style={styles.slideContainer}>
-        <FastImage
-          resizeMode={FastImage.resizeMode.contain}
-          source={{ uri: item?.mobile_image, priority: FastImage.priority.high }}
-          style={styles.slideImage}
+      <Pressable style={styles.slideContainer} onPress={() => Linking.openURL(item.link)}>
+        <Image
+          source={item.image}
+          resizeMode={'contain'} style={styles.slideImage}
         />
         <View style={[styles.slideInfo, item?.shadow && styles.slideInfoShadow]}>
           <Text style={styles.slideTitle}>{item.title}</Text>
           <Text style={styles.slideSubText}>{item.text_on_image}</Text>
         </View>
-      </View>
+      </Pressable>
     );
   }
 
@@ -93,18 +121,16 @@ const Home = () => {
       refreshing={refreshing}
       onRefresh={refreshItems}
       ListFooterComponent={() => (
-        <ScrollView style={styles.container}>
+        <ScrollView stickyHeaderIndices={[1]} style={styles.container}>
           <Carousel
             loop
             autoplay
             horizontal
-            data={[]}
+            data={slides}
             useScrollView
-            itemHeight={200}
             autoplayDelay={1500}
-            scrollEnabled={false}
             inactiveSlideScale={1}
-            autoplayInterval={7000}
+            autoplayInterval={5000}
             inactiveSlideOpacity={1}
             renderItem={renderSlide}
             firstItem={slides.length}
@@ -112,16 +138,21 @@ const Home = () => {
             initialScrollIndex={slides.length}
             itemWidth={deviceWidth}
             sliderWidth={deviceWidth}
-            contentContainerCustomStyle={styles.carouselContainer}
           />
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.chairContainer}
-            data={departments}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-          />
+          <>
+            <Pressable style={styles.tapeContainer}>
+              <Text style={styles.tapeText}>{t('Customize categories')}</Text>
+              <FilterIcon size={40}  />
+            </Pressable>
+          </>
+          {/*<FlatList*/}
+          {/*  horizontal*/}
+          {/*  showsHorizontalScrollIndicator={false}*/}
+          {/*  contentContainerStyle={styles.chairContainer}*/}
+          {/*  data={departments}*/}
+          {/*  renderItem={renderItem}*/}
+          {/*  keyExtractor={(item, index) => index.toString()}*/}
+          {/*/>*/}
           <PostsList fetchItems={loadItems} loading={postsLoading} posts={posts} />
         </ScrollView>
       )}

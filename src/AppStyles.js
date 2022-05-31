@@ -1,4 +1,6 @@
 const light = {
+  activeIconColor: '#4267B2',
+  blue: '#4267B2',
   white: '#fff',
   whiteText: '#fff',
   mainThemeBackgroundColor: '#fff',

@@ -15,7 +15,7 @@ export default function Loader({ style = {}, opacity = false, text }) {
         opacity && { backgroundColor: AppStyles.colorSet[colorScheme].whiteWithLightOpacity },
       ]}>
       <View style={{ height: 50 }}>
-        <MaterialIndicator color={AppStyles.colorSet[colorScheme].mainThemeColor} size={50} animationDuration={5000} />
+        <MaterialIndicator color={AppStyles.colorSet[colorScheme].blue} size={50} animationDuration={5000} />
       </View>
       {typeof text === 'string' && !!text.length && <Text style={styles.text}>{text}</Text>}
     </View>

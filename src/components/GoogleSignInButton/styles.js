@@ -4,7 +4,7 @@ const dynamicStyles = (colorScheme) => {
   return StyleSheet.create({
     googleBtn: {
       padding: 2,
-      backgroundColor: '#4588f1',
+      backgroundColor: '#4267B2',
       borderRadius: 3,
       minWidth: 130,
       flexDirection: 'row',

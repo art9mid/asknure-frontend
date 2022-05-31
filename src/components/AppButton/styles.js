@@ -15,7 +15,7 @@ const dynamicStyles = (colorScheme) => {
   return StyleSheet.create({
     btn: {
       ...baseButton,
-      backgroundColor: AppStyles.colorSet[colorScheme].mainThemeColor,
+      backgroundColor: AppStyles.colorSet[colorScheme].blue,
     },
     btnDisabled: {
       opacity: 0.7,
@@ -25,7 +25,7 @@ const dynamicStyles = (colorScheme) => {
       color: AppStyles.colorSet[colorScheme].whiteText,
       backgroundColor: AppStyles.colorSet[colorScheme].whiteBackgroundColor,
       borderWidth: 1,
-      borderColor: AppStyles.colorSet[colorScheme].mainThemeColor,
+      borderColor: AppStyles.colorSet[colorScheme].blue,
     },
     btnDisabledSecondary: {
       opacity: 0.7,
@@ -44,7 +44,7 @@ const dynamicStyles = (colorScheme) => {
     },
     textSecondary: {
       fontSize: 16,
-      color: AppStyles.colorSet[colorScheme].textColor,
+      color: AppStyles.colorSet[colorScheme].blue,
     },
   });
 };
