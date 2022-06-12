@@ -36,7 +36,6 @@
     "react-native-screens": "^3.8.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.1",
-    "react-native-switch-selector": "^2.1.4",
     "react-native-toast-message": "^2.1.1",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",

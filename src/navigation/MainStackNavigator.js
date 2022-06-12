@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import dynamicStyles from './styles';
 import {
   AddPost,
+  Categories,
   ChangeUserAvatar,
   ChangeUserName,
   Language,
@@ -11,6 +12,7 @@ import {
   Settings,
   UserPosts,
   UserSettings,
+  AddCategory, CategoriesSettings,
 } from '../screens';
 import { HeaderLeftBack, HeaderTitle } from '../components';
 import SearchScreen from '../screens/SearchScreen/SearchScreen';
@@ -100,6 +102,30 @@ function MainStackNavigator() {
         component={Language}
         options={{
           headerTitle: t('Change language'),
+          headerLeft: () => <HeaderLeftBack />,
+        }}
+      />
+      <Stack.Screen
+        name="Categories"
+        component={Categories}
+        options={{
+          headerTitle: t('Categories'),
+          headerLeft: () => <HeaderLeftBack />,
+        }}
+      />
+      <Stack.Screen
+        name="AddCategory"
+        component={AddCategory}
+        options={{
+          headerTitle: t('Create category'),
+          headerLeft: () => <HeaderLeftBack />,
+        }}
+      />
+      <Stack.Screen
+        name="CategoriesSettings"
+        component={CategoriesSettings}
+        options={{
+          headerTitle: t('Categories'),
           headerLeft: () => <HeaderLeftBack />,
         }}
       />

@@ -9,6 +9,46 @@ const styles = (colorScheme) => {
       height: '100%',
       backgroundColor: colorSet.whiteBackgroundColor,
     },
+    activeCategories: {
+      paddingHorizontal: 15,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    tapeContainerActive: {
+      height: 45,
+      width: 45,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: colorSet.grey1,
+      backgroundColor: colorSet.grey3,
+    },
+    tabsContainer: {
+      flexDirection: 'row',
+    },
+    tabWrapper: {
+      paddingVertical: 15,
+    },
+    tabActive: {
+      backgroundColor: colorSet.blue,
+    },
+    tabText: {
+      color: colorSet.blue,
+      fontSize: 14,
+    },
+    tabTextActive: {
+      color: colorSet.whiteText,
+    },
+    tab: {
+      borderColor: colorSet.blue,
+      borderWidth: 1,
+      borderRadius: 5,
+      marginRight: 5,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+    },
     tapeContainer: {
       minHeight: 55,
       paddingHorizontal: 20,

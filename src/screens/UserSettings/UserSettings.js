@@ -26,11 +26,6 @@ const UserSettings = () => {
     },
   };
 
-  const logout = () => {
-    dispatch({ type: LOGOUT });
-    navigation.navigate('Profile');
-  };
-
   return (
     <View style={styles.container}>
       <MenuListItem

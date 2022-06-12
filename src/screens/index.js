@@ -8,3 +8,7 @@ export { default as ChangeUserName } from './ChangeUserName/ChangeUserName';
 export { default as UserSettings } from './UserSettings/UserSettings';
 export { default as Settings } from './Settings/Settings';
 export { default as Language } from './Language/Language';
+export { default as ServerError } from './ServerError/ServerError';
+export { default as Categories } from './Categories/Categories';
+export { default as AddCategory } from './AddCategory/AddCategory';
+export { default as CategoriesSettings } from './CategoriesSettings/CategoriesSettings';

@@ -6,21 +6,29 @@ let cancel;
 
 export const fetchPosts = ({ page = 0, size = 20, ...options }) => {
   cancel && cancel();
-  let url = `/v1/posts?size=${size}&page=${page}`;
+  const params = new URLSearchParams();
+  params.append('size', size);
+  params.append('page', page);
 
   if (options.searchParam) {
-    url += `&searchParam=${options.searchParam}`;
+    params.append('searchParam', options.searchParam);
+  }
+
+  if (options.categories && Array.isArray(options.categories)) {
+    options.categories.forEach((item) => {
+      params.append('categories', item.name);
+    });
   }
 
   return client()
-    .get(url, {
+    .get(`/v1/posts?${params}`, {
       cancelToken: new CancelToken((exit) => (cancel = exit)),
     })
-    .then(({ status, data }) => {
-      if (status === 200 && data) {
-        return data;
+    .then((response) => {
+      if (response.status === 200 && response.data) {
+        return response.data;
       }
-      throw new Error(data);
+      throw new Error(response.data);
     })
     .catch((error) => {
       if (axios.isCancel(error)) {
@@ -73,7 +81,6 @@ export const addPostComment = (postId, data, user) => {
     .post(`/v1/posts/${postId}`, data)
     .then((response) => {
       if (response.status === 201) {
-        console.log(response);
         return response.data;
       }
       throw new Error(response.data);

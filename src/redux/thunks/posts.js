@@ -10,7 +10,7 @@ import {
   FETCH_POST_ACTION_SUCCESS,
   FETCH_POSTS_ACTION_FAILED,
   FETCH_POSTS_ACTION_STARTED,
-  FETCH_POSTS_ACTION_SUCCESS,
+  FETCH_POSTS_ACTION_SUCCESS, FETCH_SELECTED_POSTS_ACTION_SUCCESS,
   LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS,
   REFRESH_POSTS_ACTION_SUCCESS,
   SEARCH_POSTS_ACTION_FAILED,
@@ -20,9 +20,19 @@ import {
 import { addPost, addPostComment, fetchPost, fetchPosts, uploadPostFile } from '../../api/http/posts';
 
 export const fetchPostsThunk =
-  ({ page, size, refreshing = false }) => async (dispatch) => {
+  ({ page, size, refreshing = false }) => async (dispatch, getStore) => {
     dispatch({ type: FETCH_POSTS_ACTION_STARTED });
     try {
+      const store = getStore();
+      const categories = store.categories.selectedCategories;
+
+      if (categories.length) {
+        const selectedPosts = await fetchPosts({ page, size, categories });
+        dispatch({ type: FETCH_SELECTED_POSTS_ACTION_SUCCESS, data: selectedPosts });
+      } else {
+        dispatch({ type: FETCH_SELECTED_POSTS_ACTION_SUCCESS, data: {} });
+      }
+
       const posts = await fetchPosts({ page, size });
       if (refreshing) {
         dispatch({ type: REFRESH_POSTS_ACTION_SUCCESS, data: posts });
@@ -63,7 +73,6 @@ export const addPostThunk = (params, files) => async (dispatch, getStore) => {
     const post = await addPost(params, user);
     if (files) {
       const filesToSend = files.map((file) => {
-        console.log(file.uri);
         const formData = new FormData();
         formData.append('file', file.uri);
         return uploadPostFile(user, post.id, formData);

@@ -34,7 +34,7 @@ const PostsList = ({ posts, loading, fetchItems, stack = 'Home' }) => {
     }
   };
 
-  return (
+  return !!posts?.content && (
     <VirtualizedList
       scrollEnabled={false}
       style={{ paddingHorizontal: 15 }}

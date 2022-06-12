@@ -51,6 +51,54 @@ const styles = (colorScheme) => {
       color: colorSet.textColor,
       marginVertical: 10,
     },
+    category: {
+      paddingVertical: 10,
+      paddingLeft: 15,
+      paddingRight: 45,
+      borderWidth: 1,
+      borderColor: colorSet.grey1,
+      borderRadius: 50,
+      marginRight: 10,
+    },
+    categoryActive: {
+      borderColor: colorSet.blue,
+      backgroundColor: colorSet.blue,
+    },
+    categoryWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 5,
+      position: 'relative',
+    },
+    categoryText: {
+      fontWeight: '700',
+      color: colorSet.textColor,
+    },
+    categoryActiveText: {
+      color: colorSet.whiteText,
+    },
+    categoryPlus: {
+      position: 'absolute',
+      color: colorSet.blue,
+      marginLeft: 20,
+      fontSize: 18,
+      top: 6,
+      right: 15,
+    },
+    categoryActivePlus: {
+      color: colorSet.whiteText,
+    },
+    categoryWrapperOther: {
+      paddingRight: 15,
+      backgroundColor: colorSet.grey1,
+      borderColor: colorSet.grey1,
+    },
+    selectedCategoriesText: {
+      marginVertical: 10,
+      fontSize: 13,
+      fontWeight: '500',
+      color: colorSet.blackSubTextColor,
+    },
   });
 };
 

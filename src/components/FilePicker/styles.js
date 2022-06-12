@@ -29,6 +29,7 @@ const dynamicStyles = (colorScheme) => {
     },
     text: {
       fontSize: 14,
+      color: styles.textColor,
       fontWeight: '700',
     },
     image: {

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { Share, Text, useColorScheme, View } from 'react-native';
+import { FlatList, Share, Text, useColorScheme, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import dynamicStyles from './styles';
 import PostAnswer from './PostAnswer';
@@ -60,18 +60,42 @@ const Post = (props) => {
     return <Comment item={item} key={index} />;
   };
 
+  const renderCategory = (item) => {
+    return (
+      <View style={styles.categoryNameContainer}>
+        <Text style={styles.categoryName}>
+          {item}
+        </Text>
+      </View>
+    );
+  };
+
   if (loading || !post) {
     return <Loader />;
   }
 
+  console.log(post);
+
   return (
     <View style={styles.container}>
       <View style={styles.tenderHeaderContainer}>
-        <Text style={styles.userText}>{t('Answers')}: {post.comments?.length}</Text>
-        <Text style={styles.userText}>{moment(post.createdAt).format('DD.MM.YYYY')}</Text>
+        <Text style={styles.userText}>
+          {t('Answers')}: {post.comments?.length}
+        </Text>
+        <Text style={styles.userText}>
+          {moment(post.createdAt).format('DD.MM.YYYY')}
+        </Text>
       </View>
       <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'} style={styles.body}>
-        <Text style={styles.text}>{post.title}</Text>
+        <Text style={styles.postTitle}>{post.title}</Text>
+        {!!post.text.length && (
+          <Text style={styles.text}>{post.text}</Text>
+        )}
+        {!!post.categories.length && (
+          <View style={styles.categories}>
+            {post.categories.map(renderCategory)}
+          </View>
+        )}
         {!!post.comments?.length && (
           <View style={styles.answersContainer}>
             <AppTitle style={styles.title}>Ответы</AppTitle>

@@ -41,13 +41,20 @@ const styles = (colorScheme) => {
       alignItems: 'center',
       padding: 15,
     },
+    userAvatarContainer: {
+      width: 55,
+      height: 55,
+      borderRadius: 100,
+      borderWidth: 2,
+      borderColor: '#fff',
+      overflow: 'hidden',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     userAvatar: {
       width: 55,
       height: 55,
       resizeMode: 'contain',
-      borderRadius: 50,
-      borderWidth: 2,
-      borderColor: '#fff',
     },
     userInfo: {
       paddingLeft: 10,

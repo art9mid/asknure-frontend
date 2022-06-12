@@ -1,79 +1,53 @@
 import {
-  FETCH_USER_POSTS_ACTION_FAILED,
-  FETCH_USER_POSTS_ACTION_STARTED,
-  FETCH_USER_POSTS_ACTION_SUCCESS,
-  LOGOUT,
-  REFRESH_USER_POSTS_ACTION_SUCCESS,
-  UPDATE_USER_INFO_ACTION_FAILED,
-  UPDATE_USER_INFO_ACTION_STARTED,
-  UPDATE_USER_INFO_ACTION_SUCCESS,
-  USER_INFO_ACTION_FAILED,
-  USER_INFO_ACTION_STARTED,
-  USER_INFO_ACTION_SUCCESS,
+  ADD_CATEGORY_ACTION_FAILED,
+  ADD_CATEGORY_ACTION_STARTED, ADD_CATEGORY_ACTION_SUCCESS,
+  FETCH_CATEGORIES_ACTION_FAILED,
+  FETCH_CATEGORIES_ACTION_STARTED,
+  FETCH_CATEGORIES_ACTION_SUCCESS, SET_SELECTED_CATEGORIES,
 } from '../actions';
 
 const initialState = {
-  user: null,
-  userLoading: false,
+  categories: [],
+  categoriesLoading: true,
 
-  posts: null,
-  postsLoading: false,
+  selectedCategories: [],
 
-  updateUserLoading: false,
+  addCategoryLoading: false,
 };
 
-export const user = (state = initialState, action) => {
+export const categories = (state = initialState, action) => {
   switch (action.type) {
-    case LOGOUT: {
-      return { ...state, user: null };
+
+    case FETCH_CATEGORIES_ACTION_STARTED: {
+      return { ...state, categoriesLoading: true };
     }
 
-    case USER_INFO_ACTION_STARTED: {
-      return { ...state, userLoading: true };
+    case FETCH_CATEGORIES_ACTION_SUCCESS: {
+      return { ...state, categories: action.data, categoriesLoading: false };
     }
 
-    case USER_INFO_ACTION_SUCCESS: {
-      return { ...state, userLoading: false, user: action.data };
+    case FETCH_CATEGORIES_ACTION_FAILED: {
+      return { ...state, categoriesLoading: false };
     }
 
-    case USER_INFO_ACTION_FAILED: {
-      return { ...state, userLoading: false };
+    case ADD_CATEGORY_ACTION_STARTED: {
+      return { ...state, addCategoryLoading: true };
     }
 
-    case FETCH_USER_POSTS_ACTION_STARTED: {
-      return { ...state, postsLoading: true };
-    }
-
-    case FETCH_USER_POSTS_ACTION_SUCCESS: {
-      const posts = {
-        ...action.data,
-        content: state.posts.content ? [...state.posts.content, ...action.data.content] : action.data.content,
+    case ADD_CATEGORY_ACTION_SUCCESS: {
+      return {
+        ...state,
+        addCategoryLoading: false,
+        categories: { ...state.categories, content: [...state.categories.content, action.data] },
       };
-      return { ...state, posts, postsLoading: false };
     }
 
-    case REFRESH_USER_POSTS_ACTION_SUCCESS: {
-      const posts = {
-        ...action.data,
-        content: action.data.content,
-      };
-      return { ...state, posts, postsLoading: false };
+    case ADD_CATEGORY_ACTION_FAILED: {
+      return { ...state, addCategoryLoading: false };
     }
 
-    case FETCH_USER_POSTS_ACTION_FAILED: {
-      return { ...state, postsLoading: false };
-    }
-
-    case UPDATE_USER_INFO_ACTION_STARTED: {
-      return { ...state, updateUserLoading: true };
-    }
-
-    case UPDATE_USER_INFO_ACTION_SUCCESS: {
-      return { ...state, user: { ...state.user, ...action.data }, updateUserLoading: false };
-    }
-
-    case UPDATE_USER_INFO_ACTION_FAILED: {
-      return { ...state, updateUserLoading: false };
+    case SET_SELECTED_CATEGORIES: {
+      return { ...state, selectedCategories: action.data };
     }
 
     default: {

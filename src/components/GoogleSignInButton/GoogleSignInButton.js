@@ -17,14 +17,10 @@ const GoogleSignInButton = ({ onSingIn }) => {
       await GoogleSignin.hasPlayServices();
       const isSignedIn = await GoogleSignin.isSignedIn();
 
-      console.log('isSignedIn', isSignedIn);
-
       if (isSignedIn) {
         await GoogleSignin.signOut();
       }
-      await GoogleSignin.signIn();
-      const response = await GoogleSignin.getTokens();
-      console.log(response);
+      const response = await GoogleSignin.signIn();
       onSingIn(response);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

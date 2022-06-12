@@ -5,16 +5,24 @@ import { app } from './app';
 import { user } from './user';
 import { posts } from './posts';
 import { errors } from './errors';
+import { categories } from './categories';
 
 const appPersistConfig = {
   key: 'app',
   storage: AsyncStorage,
-  whitelist: [],
+  whitelist: ['locale'],
 };
+
 const userPersistConfig = {
   key: 'user',
   storage: AsyncStorage,
   whitelist: ['user'],
+};
+
+const categoriesPersistConfig = {
+  key: 'categories',
+  storage: AsyncStorage,
+  whitelist: ['selectedCategories'],
 };
 
 const appReducer = combineReducers({
@@ -22,6 +30,7 @@ const appReducer = combineReducers({
   user: persistReducer(userPersistConfig, user),
   posts,
   errors,
+  categories: persistReducer(categoriesPersistConfig, categories),
 });
 
 export default appReducer;

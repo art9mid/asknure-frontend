@@ -16,6 +16,7 @@ const light = {
   blackSubTextColor: '#8E8E93',
   errorMessage: '#ea3128',
   whiteWithLightOpacity: '#FFFFFF99',
+  pink: '#FCE8DD',
 };
 
 const dark = {
@@ -34,6 +35,7 @@ const dark = {
   blackSubTextColor: '#8E8E93',
   errorMessage: '#ea3128',
   whiteWithLightOpacity: '#FFFFFF99',
+  pink: '#FCE8DD',
 };
 
 export const colorSet = {
@@ -69,7 +71,12 @@ export const flagSet = {
   en: require('../assets/flags/us.png'),
 };
 
+export const iconSet = {
+  nothingToShow: require('../assets/nothingtoshow/nothingToShow.png'),
+};
+
 export default {
   colorSet,
   flagSet,
+  iconSet,
 };

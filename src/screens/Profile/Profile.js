@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Image, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
 import RegisterFlow from './RegisterFlow/RegisterFlow';
-import { BlockIcon, LogoutIcon, PencilIcon } from '../../SvgComponents';
-import AppStyles, { avatars, images } from '../../AppStyles';
-import { AppTitle, MenuListItem } from '../../components';
-import { LOGOUT } from '../../redux/actions';
+import { logoutThunk } from '../../redux/thunks/user';
 import { LocalizationContext } from '../../localization';
+import { AppTitle, MenuListItem } from '../../components';
+import AppStyles, { avatars, images } from '../../AppStyles';
+import { BlockIcon, LogoutIcon, PencilIcon } from '../../SvgComponents';
 
 const Profile = () => {
   const { t } = useContext(LocalizationContext);
@@ -25,7 +25,7 @@ const Profile = () => {
 
   const menuNavigation = {
     logout() {
-      dispatch({ type: LOGOUT });
+      dispatch(logoutThunk());
     },
     userPosts: () => {
       navigation.navigate('MainStack', { screen: 'UserPostsScreen' });
@@ -42,11 +42,13 @@ const Profile = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.cardContainer}>
         <View style={styles.content}>
-          {/http/.test(user.avatar) ? (
-            <Image source={{ uri: user.avatar }} style={styles.userAvatar} />
-          ) : (
-            <Image source={avatars[user.avatar]} style={styles.userAvatar} />
-          )}
+          <View style={styles.userAvatarContainer}>
+            {/http/.test(user.avatar) ? (
+              <Image source={{ uri: user.avatar }} style={styles.userAvatar} />
+            ) : (
+              <Image source={avatars[user.avatar]} style={styles.userAvatar} />
+            )}
+          </View>
           <View style={styles.userInfo}>
             <View>
               <Text style={styles.username}>{user.username}</Text>

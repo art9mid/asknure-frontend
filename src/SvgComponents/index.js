@@ -17,3 +17,4 @@ export { default as LogoutIcon } from './LogoutIcon';
 export { default as LanguageIcon } from './LanguageIcon';
 export { default as CheckIcon } from './CheckIcon';
 export { default as FilterIcon } from './FilterIcon';
+export { default as NoInternetIcon } from './NoInternetIcon';

@@ -15,27 +15,51 @@ const styles = (colorScheme) => {
       justifyContent: 'space-between',
       alignItems: 'center',
       borderBottomWidth: 1,
-      borderBottomColor: AppStyles.colorSet[colorScheme].grey3,
+      borderBottomColor: colorSet.grey3,
       paddingVertical: 15,
       paddingHorizontal: 15,
     },
     userText: {
       maxWidth: '100%',
       fontSize: 15,
-      color: AppStyles.colorSet[colorScheme].blackSubTextColor,
+      color: colorSet.blackSubTextColor,
     },
     body: {
       padding: 15,
     },
-    text: {
+    postTitle: {
       fontSize: 18,
-      color: AppStyles.colorSet[colorScheme].blackTextColor,
+      fontWeight: '700',
+      paddingBottom: 5,
+      color: colorSet.blackTextColor,
+    },
+    text: {
+      fontSize: 16,
+      color: colorSet.blackTextColor,
+    },
+    categories: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      paddingTop: 15,
+    },
+    categoryNameContainer: {
+      width: 'auto',
+      backgroundColor: colorSet.pink,
+      marginRight: 4,
+      marginBottom: 4,
+      paddingVertical: 6,
+      paddingHorizontal: 10,
+      borderRadius: 5,
+    },
+    categoryName: {
+      fontSize: 13,
+      color: colorSet.textColor,
     },
     title: {
       fontSize: 17,
       fontWeight: '700',
       marginTop: 20,
-      color: AppStyles.colorSet[colorScheme].blackTextColor,
+      color: colorSet.blackTextColor,
     },
     answersContainer: {
       paddingTop: 10,

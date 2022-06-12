@@ -10,7 +10,7 @@ import {
   FETCH_POST_ACTION_SUCCESS,
   FETCH_POSTS_ACTION_FAILED,
   FETCH_POSTS_ACTION_STARTED,
-  FETCH_POSTS_ACTION_SUCCESS, LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS,
+  FETCH_POSTS_ACTION_SUCCESS, FETCH_SELECTED_POSTS_ACTION_SUCCESS, LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS,
   REFRESH_POSTS_ACTION_SUCCESS,
   SEARCH_POSTS_ACTION_FAILED,
   SEARCH_POSTS_ACTION_STARTED,
@@ -20,6 +20,7 @@ import {
 const initialState = {
   postsLoading: false,
   posts: [],
+  postsByCategories: [],
   addPostsLoading: false,
 
   postLoading: false,
@@ -34,6 +35,10 @@ export const posts = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_POSTS_ACTION_STARTED: {
       return { ...state, postsLoading: true };
+    }
+
+    case FETCH_SELECTED_POSTS_ACTION_SUCCESS: {
+      return { ...state, postsByCategories: action.data };
     }
 
     case FETCH_POSTS_ACTION_SUCCESS: {

@@ -2,18 +2,28 @@ import { StyleSheet } from 'react-native';
 import AppStyles from '../../AppStyles';
 
 const styles = (colorScheme) => {
-  const colorSet = AppStyles.colorSet[colorScheme];
-
   return StyleSheet.create({
     container: {
+      backgroundColor: AppStyles.colorSet[colorScheme].mainThemeBackgroundColor,
       height: '100%',
-      padding: 15,
-      backgroundColor: colorSet.mainThemeBackgroundColor,
+      padding: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    title: {
+      fontSize: 21,
+      fontWeight: '700',
+      textAlign: 'center',
+      maxWidth: 280,
+      color: AppStyles.colorSet[colorScheme].textColor,
+      marginTop: 30,
+      marginBottom: 20,
     },
     text: {
-      marginBottom: 20,
-      fontSize: 12,
-      color: colorSet.blackSubTextColor,
+      fontSize: 16,
+      maxWidth: 280,
+      textAlign: 'center',
+      color: AppStyles.colorSet[colorScheme].blackSubTextColor,
     },
   });
 };

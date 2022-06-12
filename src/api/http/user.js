@@ -53,20 +53,18 @@ export const fetchUserPosts = ({ page = 0, size = 20 }, user) => {
 };
 
 export const refreshToken = (data) => {
+  const searchParams = new URLSearchParams(data)
   return axios
-    .get('https://oauth2.googleapis.com/token', {
-      headers: { 'Content-Type': 'application/json' },
-      data,
+    .post('https://oauth2.googleapis.com/token', searchParams, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     })
     .then((response) => {
-      console.log(response);
-      if (response.status === 200 && data) {
-        return data;
+      if (response.status === 200 && response.data) {
+        return response.data;
       }
       throw new Error(data);
     })
     .catch((error) => {
-      console.log(error);
       if (error instanceof Error) {
         throw error;
       }
