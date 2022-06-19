@@ -15,7 +15,6 @@ const dynamicStyles = (colorScheme) => {
       paddingTop: 10,
       paddingBottom: 10,
       height: 55,
-      textAlignVertical: 'top',
       fontSize: 15,
       color: colorSet.textColor,
       backgroundColor: colorSet.mainThemeBackgroundColor

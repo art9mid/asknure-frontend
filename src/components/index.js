@@ -23,3 +23,4 @@ export { default as PostsList } from './PostsList/PostsList';
 export { default as AppCheckedListItem } from './AppCheckedListItem/AppCheckedListItem';
 export { default as NothingToShow } from './NothingToShow/NothingToShow';
 export { default as HomeSkeleton } from './Skeleton/HomeSkeleton';
+export { default as AuthModal } from './AuthModal/AuthModal';

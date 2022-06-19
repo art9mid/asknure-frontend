@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "81309441837-4o85tsa67f5c3idb4crb4lpvh9r6d9rg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.asknure",
+            "certificate_hash": "a5b8b2141f029806d6d639840486a17851842b68"
+          }
+        },
+        {
           "client_id": "81309441837-p8f5iskkqr429542h326t1kh6po36kg8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

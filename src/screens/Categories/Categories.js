@@ -19,6 +19,7 @@ const Categories = (props) => {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const categories = useSelector((state) => state.categories.categories);
+
   const [categoriesLoading, setCategoriesLoading] = React.useState(true);
 
   React.useEffect(() => {

@@ -17,7 +17,7 @@ const dynamicStyles = (colorScheme) => {
     title: {
       fontSize: 26,
       fontWeight: '700',
-      color: AppStyles.colorSet[colorScheme].mainTextColor,
+      color: AppStyles.colorSet[colorScheme].textColor,
       maxWidth: 280,
       textAlign: 'center',
     },

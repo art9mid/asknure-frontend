@@ -11,6 +11,7 @@ import { fetchPostThunk } from '../../redux/thunks/posts';
 import { AppTitle, Comment, HeaderTitle, Loader, ShareButton } from '../../components';
 import buildLink from '../../utils/buildLink';
 import { LocalizationContext } from '../../localization';
+import { FilesList } from '../../components/FilePicker/FilePicker';
 
 const Post = (props) => {
   const { t } = useContext(LocalizationContext);
@@ -74,8 +75,6 @@ const Post = (props) => {
     return <Loader />;
   }
 
-  console.log(post);
-
   return (
     <View style={styles.container}>
       <View style={styles.tenderHeaderContainer}>
@@ -90,6 +89,12 @@ const Post = (props) => {
         <Text style={styles.postTitle}>{post.title}</Text>
         {!!post.text.length && (
           <Text style={styles.text}>{post.text}</Text>
+        )}
+        {!!post?.files?.length && (
+          <>
+            <AppTitle>Файли 📁</AppTitle>
+            <FilesList files={post.files} />
+          </>
         )}
         {!!post.categories.length && (
           <View style={styles.categories}>

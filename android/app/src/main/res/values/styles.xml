@@ -1,11 +1,13 @@
 <resources>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorControlActivated">#382A2C</item>
-        <item name="android:textColorHighlight">#382A2C</item>
+        <!-- Customize your theme here. -->
         <item name="android:forceDarkAllowed">false</item>
     </style>
+
     <style name="BootTheme" parent="AppTheme">
         <item name="android:background">@drawable/bootsplash</item>
     </style>
+
 </resources>

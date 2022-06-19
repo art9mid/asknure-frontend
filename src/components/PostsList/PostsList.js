@@ -36,7 +36,6 @@ const PostsList = ({ posts, loading, fetchItems, stack = 'Home' }) => {
 
   return !!posts?.content && (
     <VirtualizedList
-      scrollEnabled={false}
       style={{ paddingHorizontal: 15 }}
       data={posts?.content}
       getItemCount={(data) => data.length}

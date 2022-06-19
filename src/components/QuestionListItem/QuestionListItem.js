@@ -34,7 +34,10 @@ function QuestionListItem({ item, onClick }) {
       </View>
       <View style={styles.info}>
         <Text style={styles.answers}>{t('answers')}: {item.answersCount || '0'}</Text>
-        <Text style={styles.title}>{item.title.length > 50 ? `${item.title.slice(0, 50).trim()}...` : item.title}</Text>
+        <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
+        {!!item.categories?.length && (
+          <Text style={styles.category} numberOfLines={1}>{item.categories.join(', ')}</Text>
+        )}
         <Text style={styles.date}>{moment(item.createdAt).fromNow()}</Text>
       </View>
       <View style={styles.rightIcon}>

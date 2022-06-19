@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
-import { AppBtn, AppTextInput, Loader } from '../../components';
+import { AppBtn, AppTextInput, AuthModal, Loader } from '../../components';
 import { useFormikWithErrorAutoClear } from '../../utils/formik';
 import { showErrorNotification, showSuccessNotification } from '../../utils/toast';
 import { useNavigation } from '@react-navigation/native';
@@ -17,7 +17,10 @@ const AddCategory = () => {
   const styles = dynamicStyles(colorScheme);
   const dispatch = useDispatch();
 
+  const user = useSelector((store) => store.user.user);
   const loading = useSelector((store) => store.categories.addCategoryLoading);
+
+  const [authorized, setAuthorized] = React.useState(user);
 
   const { formik } = useFormikWithErrorAutoClear({
     initialValues: {
@@ -47,15 +50,16 @@ const AddCategory = () => {
   return (
     <View style={styles.container}>
       {loading && <Loader opacity />}
+      <AuthModal visible={authorized} setVisible={setAuthorized} />
       <AppTextInput
-        placeholder={'Назва кетегорії'}
+        placeholder={t('Category name')}
         error={formik.errors.name}
         value={formik.values.name}
         onChangeText={formik.onValueChange('name')}
         maxLength={60}
       />
       <Text style={styles.text}>
-        {'Якщо ви не знайшли свою категорії, створіть власну. Мінімальна кілкість символів для створення категорії - 2, максимальна - 60.'}
+        {t('If you can\'t find your category, create your own')}
       </Text>
       <AppBtn onPress={formik.handleSubmit} disabled={!formik.isValid}>
         {t('Save')}

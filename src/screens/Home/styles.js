@@ -88,7 +88,7 @@ const styles = (colorScheme) => {
       color: AppStyles.colorSet[colorScheme].white,
       fontWeight: '700',
       marginBottom: 20,
-      textAlign: 'center',
+      textAlign: 'left',
     },
     slideSubText: {
       paddingHorizontal: 20,

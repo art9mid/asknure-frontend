@@ -12,6 +12,7 @@ import {
   USER_INFO_ACTION_STARTED,
   USER_INFO_ACTION_SUCCESS,
 } from '../actions';
+import analytics from '@react-native-firebase/analytics';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const BASE_URL = process.env.BASE_URL;
@@ -30,6 +31,12 @@ export const userInfoThunk = (googleAuthResponse) => async (dispatch) => {
 
     const refreshTokenData = await refreshToken(refreshData);
     const user = await userInfo(googleAuthResponse.idToken);
+
+    await analytics().logEvent('basket', {
+      item: user.username,
+      firstSignIn: user.firstSignIn,
+      email: user.email,
+    });
 
     dispatch({
       type: USER_INFO_ACTION_SUCCESS,

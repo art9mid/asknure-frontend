@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
+import { Image, Linking, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
 import FileIcon from '../../SvgComponents/FileIcon';
 import { showErrorNotification } from '../../utils/toast';
@@ -8,6 +8,43 @@ import { opacityLayoutAnimation } from '../../utils/layoutAnimations';
 import filePicker, { FILE_SIZE_CODE, MAX_FILE_SIZE } from '../../utils/filePicker';
 import { LocalizationContext } from '../../localization';
 
+const imageFormat = ['raw', 'jpeg', 'jpg', 'tiff', 'psd', 'bmp', 'gif', 'png'];
+
+export const FilesList = ({ files }) => {
+  const colorScheme = useColorScheme();
+  const styles = dynamicStyles(colorScheme);
+
+  const renderFile = (item, index) => {
+    const parts = item.split('.');
+    const partsSlash = item.split('/');
+    const format = parts[parts.length - 1];
+    const fileName = partsSlash[partsSlash.length - 2];
+
+    if (imageFormat.includes(format.toLocaleString())) {
+      return (
+        <Pressable key={index} style={styles.pickFileImage} onPress={() => Linking.openURL(item)}>
+          <Image source={{ uri: item }} style={styles.image} />
+        </Pressable>
+      );
+    }
+
+    return (
+      <Pressable key={index} style={styles.pickFile} onPress={() => Linking.openURL(item)}>
+        <FileIcon />
+        <Text style={styles.text} numberOfLines={1}>{fileName}</Text>
+      </Pressable>
+    );
+  };
+
+  return (
+    <View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {Array.isArray(files) && files.map(renderFile)}
+      </ScrollView>
+    </View>
+  );
+};
+
 const FilePicker = ({ contentContainerStyle, files, setFiles }) => {
   const { t } = useContext(LocalizationContext);
 
@@ -15,6 +52,9 @@ const FilePicker = ({ contentContainerStyle, files, setFiles }) => {
   const styles = dynamicStyles(colorScheme);
 
   const handlePickFile = async () => {
+    if (files?.length >= 4) {
+      return showErrorNotification('Максимальна кылькість файлів - 4');
+    }
     try {
       const response = await filePicker();
       opacityLayoutAnimation();
@@ -39,9 +79,9 @@ const FilePicker = ({ contentContainerStyle, files, setFiles }) => {
   };
 
   const renderFile = (item, index) => {
-    if (/image\//.test(item.type)) {
+    if (/image\//.test(item.type) && item.type !== 'image/tiff') {
       return (
-        <View key={index} style={styles.pickFileImage} onPress={handlePickFile}>
+        <View key={index} style={styles.pickFileImage}>
           <Image source={{ uri: item.uri }} style={styles.image} />
           <Pressable onPress={() => handleRemoveFile(item.uri)} style={styles.removeButton}>
             <RoundCloseIcon />
@@ -50,7 +90,7 @@ const FilePicker = ({ contentContainerStyle, files, setFiles }) => {
       );
     }
     return (
-      <View key={index} style={styles.pickFile} onPress={handlePickFile}>
+      <View key={index} style={styles.pickFile}>
         <FileIcon />
         <Text style={styles.text}>{item.name}</Text>
         <Pressable onPress={() => handleRemoveFile(item.uri)} style={styles.removeButton}>

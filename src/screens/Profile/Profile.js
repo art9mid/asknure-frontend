@@ -51,7 +51,7 @@ const Profile = () => {
           </View>
           <View style={styles.userInfo}>
             <View>
-              <Text style={styles.username}>{user.username}</Text>
+              <Text style={styles.username} numberOfLines={3}>{user.username}</Text>
               <Text style={styles.email}>{user.email}</Text>
             </View>
             <Pressable onPress={menuNavigation.userSettings} style={styles.editProfile}>

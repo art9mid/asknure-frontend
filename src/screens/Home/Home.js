@@ -4,15 +4,14 @@ import { useDispatch } from 'react-redux';
 import { FlatList, Linking, Pressable, ScrollView, Text, useColorScheme, View, Dimensions, Image } from 'react-native';
 import dynamicStyles from './styles';
 import HomeTape from './HomeTape';
-import { LocalizationContext } from '../../localization';
-import { showErrorNotification } from '../../utils/toast';
 import { fetchPostsThunk } from '../../redux/thunks/posts';
 import home_banner from '../../core/dummyData/home_banner';
+import { LocalizationContext } from '../../localization';
 
 const deviceWidth = Dimensions.get('window').width;
 
 const Home = () => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
@@ -30,14 +29,14 @@ const Home = () => {
 
   function renderSlide({ item }) {
     return (
-      <Pressable style={styles.slideContainer} onPress={() => Linking.openURL(item.link)}>
+      <Pressable style={styles.slideContainer} onPress={() => Linking.openURL(`${item[`link_${locale}`]}`)}>
         <Image
           source={item.image}
           resizeMode={'contain'} style={styles.slideImage}
         />
         <View style={[styles.slideInfo, item?.shadow && styles.slideInfoShadow]}>
-          <Text style={styles.slideTitle}>{item.title}</Text>
-          <Text style={styles.slideSubText}>{item.text_on_image}</Text>
+          <Text style={styles.slideTitle}>{t(item.title)}</Text>
+          <Text style={styles.slideSubText}>{t(item.text_on_image)}</Text>
         </View>
       </Pressable>
     );

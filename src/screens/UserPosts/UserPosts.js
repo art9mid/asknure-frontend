@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FlatList, ScrollView, useColorScheme } from 'react-native';
+import { FlatList, ScrollView, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
 import { showErrorNotification } from '../../utils/toast';
 import { fetchPostsThunk } from '../../redux/thunks/posts';
 import { fetchUserPostsThunk } from '../../redux/thunks/user';
-import { PostsList, QuestionListItemSkeleton } from '../../components';
+import { NothingToShow, PostsList, QuestionListItemSkeleton } from '../../components';
 import { useNavigation } from '@react-navigation/native';
 
 const UserPosts = () => {
@@ -44,13 +44,21 @@ const UserPosts = () => {
       setScreenLoading(false);
       if (!success) {
         showErrorNotification('Что-то пошло не так');
-        navigation.navigate('Profile')
+        navigation.navigate('Profile');
       }
     });
   }, []);
 
   if (screenLoading) {
     return <QuestionListItemSkeleton />;
+  }
+
+  if (!posts?.content?.length) {
+    return (
+      <View style={{ justifyContent: 'center', flex: 1, backgroundColor: 'red' }}>
+        <NothingToShow />
+      </View>
+    );
   }
 
   return (

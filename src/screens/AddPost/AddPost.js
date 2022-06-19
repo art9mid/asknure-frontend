@@ -17,7 +17,16 @@ import { useNavigation } from '@react-navigation/native';
 import { useFormikWithErrorAutoClear } from '../../utils/formik';
 import { addPostValidation } from '../../core/validation/addPostValidation';
 import { showErrorNotification, showSuccessNotification } from '../../utils/toast';
-import { MultilineTextInput, AppTitle, AppBtn, Loader, FilePicker, AppModal, AppTextInput } from '../../components';
+import {
+  MultilineTextInput,
+  AppTitle,
+  AppBtn,
+  Loader,
+  FilePicker,
+  AppModal,
+  AppTextInput,
+  AuthModal,
+} from '../../components';
 
 const AddMoreCategories = ({ categories, setCategories }) => {
   const { t } = useContext(LocalizationContext);
@@ -96,16 +105,6 @@ const AddPost = () => {
     'addPostError',
   );
 
-  const handleBack = React.useCallback(() => {
-    navigation.goBack();
-    setAuthorized(true);
-  }, [navigation]);
-
-  const handleCreateUser = React.useCallback(() => {
-    navigation.navigate('Profile');
-    setAuthorized(true);
-  }, [navigation]);
-
   const renderSelectedCategory = ({ item }) => {
     const removeCategory = () => {
       const filteredCategories = selectedCategories.filter((category) => category !== item.id);
@@ -164,24 +163,12 @@ const AddPost = () => {
 
   return (
     <View style={styles.container}>
-      <AppModal visible={!authorized}>
-        <Text style={styles.modalTitle}>{t('You are not authorized')}</Text>
-        <Text style={styles.modalDescription}>
-          {t('Create an account to access all ASKNURE features')}
-        </Text>
-        <View style={styles.modalFooter}>
-          <Pressable style={styles.modalBack} onPress={handleBack}>
-            <Text style={styles.modalBackText}>
-              {t('Back')}
-            </Text>
-          </Pressable>
-          <AppBtn onPress={handleCreateUser} secondary style={{ button: { height: 45 } }}>
-            {t('Create an account')}
-          </AppBtn>
-        </View>
-      </AppModal>
+      <AuthModal visible={authorized} setVisible={setAuthorized} />
       {loading && <Loader opacity text={t('Loading data')} />}
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingBottom: 40 }}
+        showsVerticalScrollIndicator={false}>
         <AppTitle style={styles.title}>👋 {t('Ask people')}</AppTitle>
         <AppTextInput
           style={{ marginBottom: 5, marginTop: 0 }}
@@ -237,7 +224,7 @@ const AddPost = () => {
         <AppTitle>📁 {t('Add image or documents')}</AppTitle>
         <FilePicker contentContainerStyle={{ paddingVertical: 5 }} files={files} setFiles={setFiles} />
       </ScrollView>
-      <AppBtn style={{ container: { paddingVertical: 15 } }} onPress={formik.handleSubmit}>
+      <AppBtn style={{ container: { paddingVertical: 5 } }} onPress={formik.handleSubmit}>
         {t('Publish')}
       </AppBtn>
     </View>

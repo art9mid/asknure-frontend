@@ -64,6 +64,7 @@ const styles = (colorScheme) => {
       justifyContent: 'space-between',
     },
     username: {
+      maxWidth: '90%',
       fontSize: 20,
       fontWeight: '700',
       color: colorSet.whiteText,

@@ -20,10 +20,12 @@ const light = {
 };
 
 const dark = {
+  activeIconColor: '#4267B2',
+  blue: '#4267B2',
   white: '#fff',
   whiteText: '#fff',
   mainThemeBackgroundColor: '#fff',
-  textColor: '#fff',
+  textColor: '#382A2C',
   grey1: '#D1D1D6',
   grey2: '#78797b',
   grey3: '#EFEFF4',

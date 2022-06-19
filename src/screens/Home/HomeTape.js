@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { Pressable, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
 import { FilterIcon } from '../../SvgComponents';
 import { LocalizationContext } from '../../localization';
-import { showErrorNotification } from '../../utils/toast';
 import { fetchPostsThunk } from '../../redux/thunks/posts';
 import { PostsList, HomeSkeleton } from '../../components';
-import { useNavigation } from '@react-navigation/native';
 
 const HomeTape = ({ page, setPage }) => {
   const navigator = useNavigation();

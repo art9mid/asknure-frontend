@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StatusBar, StyleSheet } from 'react-native';
 import AppStyles from '../../AppStyles';
 
 const styles = (colorScheme) => {
@@ -8,6 +8,7 @@ const styles = (colorScheme) => {
     container: {
       height: '100%',
       backgroundColor: colorSet.whiteBackgroundColor,
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 15 : 0,
     },
     searchWrapper: {
       height: 40,

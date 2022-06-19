@@ -93,22 +93,21 @@ export const addPostComment = (postId, data, user) => {
     });
 };
 
-export const uploadPostFile = (user, postId, data) => {
+export const uploadPostFile = (user, data) => {
   return client(user)
     .post(`/v1/files`, data, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data;',
       },
     })
     .then((response) => {
-      console.log(response);
       if (response.status === 201) {
         return response.data;
       }
       throw new Error(response.data);
     })
     .catch((error) => {
-      console.log(error.response);
+      console.log(error);
       if (error instanceof Error) {
         throw error;
       }

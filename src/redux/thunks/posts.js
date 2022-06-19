@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import {
   ADD_POST_ACTION_FAILED,
   ADD_POST_ACTION_STARTED,
@@ -65,20 +66,33 @@ export const searchPostsThunk =
     }
   };
 
+const uploadSingleFile = (user, file) => {
+  const formData = new FormData();
+  const fileUrl = Platform.OS === 'ios' ? file.uri.replace('file://', '') : file.uri;
+  const parts = file.uri.split('/');
+  const fileName = parts[parts.length - 1];
+  formData.append('file', {
+    uri: fileUrl,
+    name: fileName,
+    contentType: file.type,
+  });
+
+  return uploadPostFile(user, formData);
+};
+
 export const addPostThunk = (params, files) => async (dispatch, getStore) => {
   dispatch({ type: ADD_POST_ACTION_STARTED });
   try {
     const store = getStore();
     const user = store.user.user;
-    const post = await addPost(params, user);
+
     if (files) {
-      const filesToSend = files.map((file) => {
-        const formData = new FormData();
-        formData.append('file', file.uri);
-        return uploadPostFile(user, post.id, formData);
-      });
-      await Promise.all(filesToSend);
+      const filesToSend = files.map((file) => uploadSingleFile(user, file));
+      params.files = await Promise.all(filesToSend);
     }
+
+    const post = await addPost(params, user);
+
     dispatch({ type: ADD_POST_ACTION_SUCCESS, data: post });
     return { success: true };
   } catch (error) {

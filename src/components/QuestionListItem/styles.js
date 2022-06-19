@@ -42,12 +42,12 @@ const dynamicStyles = (colorScheme) => {
       color: AppStyles.colorSet[colorScheme].blackTextColor,
       fontWeight: '700',
       fontSize: 16,
-      paddingBottom: 5,
+      paddingBottom: 3,
       width: '90%',
     },
     date: {
       color: AppStyles.colorSet[colorScheme].blackSubTextColor,
-      fontSize: 14,
+      fontSize: 12,
     },
     rightIcon: {
       width: 9,
@@ -63,6 +63,12 @@ const dynamicStyles = (colorScheme) => {
       right: -5,
       fontSize: 12,
       color: AppStyles.colorSet[colorScheme].blackSubTextColor,
+    },
+    category: {
+      width: '90%',
+      color: AppStyles.colorSet[colorScheme].blue,
+      fontWeight: '700',
+      fontSize: 12,
     },
   });
 };

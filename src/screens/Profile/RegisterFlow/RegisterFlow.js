@@ -29,7 +29,7 @@ const RegisterFlow = () => {
       {userLoading && <Loader opacity />}
       <Image source={images.profile} style={styles.image} />
       <View style={{ alignItems: 'center' }}>
-        <Text style={styles.title}>{t('Create an account')} ASKNURE</Text>
+        <Text style={styles.title}>{t('Create an account')} ASK NURE</Text>
         <Text style={styles.subtitle}>
           {t('Ask questions, get answers')}
         </Text>
