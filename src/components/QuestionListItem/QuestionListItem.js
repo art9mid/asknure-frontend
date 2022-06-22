@@ -17,7 +17,7 @@ function QuestionListItem({ item, onClick }) {
 
   const renderImage = (() => {
     if (item.photo && /http/.test(item.photo)) {
-      return (<Image source={{ uri: 'https://unsplash.it/400/400?image=1' }} style={styles.userAvatar} />);
+      return (<Image source={{ uri: item.photo }} style={styles.userAvatar} />);
     }
     if (item.photo) {
       return <Image source={avatars[item.photo]} style={styles.userAvatar} />;

@@ -1,11 +1,12 @@
 import React from 'react';
-import { FlatList, Text, View, VirtualizedList } from 'react-native';
+import { View, VirtualizedList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Loader, QuestionListItem } from '../index';
+import UserQuestionListItem from '../QuestionListItem/UserQuestionListItem';
 
 let waiting = false;
 
-const PostsList = ({ posts, loading, fetchItems, stack = 'Home' }) => {
+const PostsList = ({ user, posts, loading, fetchItems, stack = 'Home' }) => {
   const navigation = useNavigation();
 
   const handlePostPress = React.useCallback((postId) => {
@@ -15,6 +16,9 @@ const PostsList = ({ posts, loading, fetchItems, stack = 'Home' }) => {
   }, [navigation]);
 
   const renderPosts = ({ item }) => {
+    if (user) {
+      return <UserQuestionListItem onClick={handlePostPress(item.id)} item={item} />;
+    }
     return <QuestionListItem onClick={handlePostPress(item.id)} item={item} />;
   };
 
@@ -45,7 +49,7 @@ const PostsList = ({ posts, loading, fetchItems, stack = 'Home' }) => {
       maxToRenderPerBatch={40}
       onEndReachedThreshold={0.5}
       onEndReached={!waiting && onEndReached}
-      keyExtractor={({ id }, index) => id + index}
+      keyExtractor={({ id, title }, index) => title + id + index}
       ListFooterComponent={renderLoading()}
     />
   );

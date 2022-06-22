@@ -33,6 +33,6 @@ export const addCategoryThunk = (data) => async (dispatch, getStore) => {
     return { success: true };
   } catch (error) {
     dispatch({ type: ADD_CATEGORY_ACTION_FAILED });
-    return { success: false };
+    return { success: false, code: error?.response?.status };
   }
 };

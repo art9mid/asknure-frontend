@@ -10,7 +10,7 @@ import { categories } from './categories';
 const appPersistConfig = {
   key: 'app',
   storage: AsyncStorage,
-  whitelist: ['locale'],
+  whitelist: ['locale', 'fistEnterUserQuestions'],
 };
 
 const userPersistConfig = {

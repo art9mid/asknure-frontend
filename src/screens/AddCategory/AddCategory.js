@@ -36,12 +36,12 @@ const AddCategory = () => {
       return {};
     },
     onSubmit: (value) => {
-      dispatch(addCategoryThunk(value)).then(({ success }) => {
-        if (success) {
+      dispatch(addCategoryThunk(value)).then((response) => {
+        if (response.success) {
           showSuccessNotification(t('A category has been created!'), t('Now you can select it in the category list'));
           navigation.goBack();
-        } else {
-          showErrorNotification(t('Something went wrong'));
+        } else if(response.code === 400) {
+          showErrorNotification(t('This category has already been created!'));
         }
       });
     },

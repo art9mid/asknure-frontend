@@ -1,8 +1,9 @@
 import axios from 'axios';
 import configureStore from '../../redux/store';
 import { logoutThunk, refreshTokenThunk } from '../../redux/thunks/user';
+import { navigate } from '../../utils/navigation';
 
-const BASE_URL = 'https://0429-80-93-119-161.eu.ngrok.io';
+const BASE_URL = process.env.BASE_URL;
 
 const BASE_AXIOS_CONFIG = {
   baseURL: BASE_URL,
@@ -19,8 +20,6 @@ export function client(user) {
       withCredentials: false,
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'Cache-Control': 'no-cache',
         Authorization: `Bearer ${user.token}`,
       },
     });
@@ -30,8 +29,6 @@ export function client(user) {
       withCredentials: false,
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'Cache-Control': 'no-cache',
       },
     });
   }
@@ -50,6 +47,7 @@ export function client(user) {
     async function (error) {
       if (error?.response) {
         const config = error.response.config;
+        console.log('error.response.status', error.response.status);
         if (error.response.status === 401 && !config._retry) {
           const data = config?.data ? JSON.parse(config.data) : {};
           const response = await store.dispatch(refreshTokenThunk());
@@ -59,6 +57,7 @@ export function client(user) {
             return httpClient({ ...config, data });
           } else {
             store.dispatch(logoutThunk());
+            navigate('Profile');
             return Promise.reject(config);
           }
         }

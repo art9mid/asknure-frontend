@@ -20,7 +20,7 @@ export const FilesList = ({ files }) => {
     const format = parts[parts.length - 1];
     const fileName = partsSlash[partsSlash.length - 2];
 
-    if (imageFormat.includes(format.toLocaleString())) {
+    if (imageFormat.includes(format.toLowerCase())) {
       return (
         <Pressable key={index} style={styles.pickFileImage} onPress={() => Linking.openURL(item)}>
           <Image source={{ uri: item }} style={styles.image} />
@@ -68,7 +68,7 @@ const FilePicker = ({ contentContainerStyle, files, setFiles }) => {
       }
     } catch (error) {
       if (error.message === FILE_SIZE_CODE) {
-        showErrorNotification(`Файле больше ${MAX_FILE_SIZE / 1000}мб`);
+        showErrorNotification(`Файле більше ${MAX_FILE_SIZE / 1000}мб`);
       }
     }
   };

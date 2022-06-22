@@ -58,6 +58,22 @@ export const addPost = (params, user) => {
       throw Error(error);
     });
 };
+export const updatedPost = (id, params, user) => {
+  return client(user)
+    .put(`/v1/posts/${id}`, params)
+    .then(({ status, data }) => {
+      if (status === 200) {
+        return data;
+      }
+      throw new Error(data);
+    })
+    .catch((error) => {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw Error(error);
+    });
+};
 
 export const fetchPost = (postId) => {
   return client()
@@ -65,6 +81,23 @@ export const fetchPost = (postId) => {
     .then(({ status, data }) => {
       if (status === 200) {
         return data;
+      }
+      throw new Error(data);
+    })
+    .catch((error) => {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw Error(error);
+    });
+};
+
+export const deletePost = (postId, user) => {
+  return client(user)
+    .delete(`/v1/posts/${postId}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return;
       }
       throw new Error(data);
     })
@@ -107,7 +140,6 @@ export const uploadPostFile = (user, data) => {
       throw new Error(response.data);
     })
     .catch((error) => {
-      console.log(error);
       if (error instanceof Error) {
         throw error;
       }

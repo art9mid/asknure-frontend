@@ -23,12 +23,11 @@ import {
   AppBtn,
   Loader,
   FilePicker,
-  AppModal,
   AppTextInput,
   AuthModal,
 } from '../../components';
 
-const AddMoreCategories = ({ categories, setCategories }) => {
+export const AddMoreCategories = ({ categories, setCategories }) => {
   const { t } = useContext(LocalizationContext);
 
   const colorScheme = useColorScheme();

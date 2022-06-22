@@ -5,7 +5,7 @@ import {
   ADD_POST_ACTION_SUCCESS,
   ADD_POST_COMMENT_ACTION_FAILED,
   ADD_POST_COMMENT_ACTION_STARTED,
-  ADD_POST_COMMENT_ACTION_SUCCESS,
+  ADD_POST_COMMENT_ACTION_SUCCESS, DELETE_POST_ACTION_FAILED, DELETE_POST_ACTION_STARTED, DELETE_POST_ACTION_SUCCESS,
   FETCH_POST_ACTION_FAILED,
   FETCH_POST_ACTION_STARTED,
   FETCH_POST_ACTION_SUCCESS,
@@ -16,9 +16,17 @@ import {
   REFRESH_POSTS_ACTION_SUCCESS,
   SEARCH_POSTS_ACTION_FAILED,
   SEARCH_POSTS_ACTION_STARTED,
-  SEARCH_POSTS_ACTION_SUCCESS,
+  SEARCH_POSTS_ACTION_SUCCESS, UPDATE_POST_ACTION_FAILED, UPDATE_POST_ACTION_STARTED, UPDATE_POST_ACTION_SUCCESS,
 } from '../actions';
-import { addPost, addPostComment, fetchPost, fetchPosts, uploadPostFile } from '../../api/http/posts';
+import {
+  addPost,
+  addPostComment,
+  deletePost,
+  fetchPost,
+  fetchPosts,
+  updatedPost,
+  uploadPostFile,
+} from '../../api/http/posts';
 
 export const fetchPostsThunk =
   ({ page, size, refreshing = false }) => async (dispatch, getStore) => {
@@ -75,6 +83,7 @@ const uploadSingleFile = (user, file) => {
     uri: fileUrl,
     name: fileName,
     contentType: file.type,
+    type: 'multipart/form-data',
   });
 
   return uploadPostFile(user, formData);
@@ -96,8 +105,21 @@ export const addPostThunk = (params, files) => async (dispatch, getStore) => {
     dispatch({ type: ADD_POST_ACTION_SUCCESS, data: post });
     return { success: true };
   } catch (error) {
-    console.log(error);
     dispatch({ type: ADD_POST_ACTION_FAILED });
+    return { success: false, error };
+  }
+};
+
+export const updatedPostThunk = (id, params) => async (dispatch, getStore) => {
+  dispatch({ type: UPDATE_POST_ACTION_STARTED });
+  try {
+    const store = getStore();
+    const user = store.user.user;
+    const post = await updatedPost(id, params, user);
+    dispatch({ type: UPDATE_POST_ACTION_SUCCESS, data: post });
+    return { success: true };
+  } catch (error) {
+    dispatch({ type: UPDATE_POST_ACTION_FAILED });
     return { success: false, error };
   }
 };
@@ -114,11 +136,26 @@ export const fetchPostThunk = (postId) => async (dispatch) => {
   }
 };
 
+export const deletePostThunk = (postId) => async (dispatch, getStore) => {
+  dispatch({ type: DELETE_POST_ACTION_STARTED });
+  try {
+    const store = getStore();
+    const user = store.user.user;
+    await deletePost(postId, user);
+    dispatch({ type: DELETE_POST_ACTION_SUCCESS, id: postId });
+    return { success: true };
+  } catch (error) {
+    dispatch({ type: DELETE_POST_ACTION_FAILED, id: postId });
+    return { success: false };
+  }
+};
+
 export const addPostCommentThunk = (postId, data) => async (dispatch, getStore) => {
   dispatch({ type: ADD_POST_COMMENT_ACTION_STARTED });
   try {
     const store = getStore();
     const user = store.user.user;
+
     const comment = await addPostComment(postId, data, user);
     dispatch({ type: ADD_POST_COMMENT_ACTION_SUCCESS, data: postId });
     return { success: true, data: comment };

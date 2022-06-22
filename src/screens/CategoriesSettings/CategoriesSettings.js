@@ -27,7 +27,7 @@ const CategoriesSettings = (props) => {
     dispatch(fetchCategoriesThunk(categories?.totalElements || 1000)).then(({ success }) => {
       if (!success) {
         navigator.goBack();
-        showErrorNotification(t('Something went wrong'));
+        showErrorNotification(t('Something went wrong!'), t('Please try again later'));
       } else {
         setCategoriesLoading(false);
       }

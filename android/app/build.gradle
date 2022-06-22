@@ -136,8 +136,8 @@ android {
         applicationId "com.asknure"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
     }
     splits {
         abi {
@@ -211,6 +211,8 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'com.facebook.fresco:animated-gif:2.5.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

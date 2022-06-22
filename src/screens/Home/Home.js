@@ -1,12 +1,13 @@
 import React from 'react';
 import Carousel from 'react-native-snap-carousel';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FlatList, Linking, Pressable, ScrollView, Text, useColorScheme, View, Dimensions, Image } from 'react-native';
 import dynamicStyles from './styles';
 import HomeTape from './HomeTape';
 import { fetchPostsThunk } from '../../redux/thunks/posts';
 import home_banner from '../../core/dummyData/home_banner';
 import { LocalizationContext } from '../../localization';
+import { HomeSkeleton } from '../../components';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -18,6 +19,23 @@ const Home = () => {
 
   const [page, setPage] = React.useState(1);
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const storeSelectedCategories = useSelector((state) => state.categories.selectedCategories);
+
+  const [screenLoading, setScreenLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    setScreenLoading(true);
+    dispatch(fetchPostsThunk({
+      page: 0,
+      size: 20,
+      refreshing: true,
+      categories: storeSelectedCategories,
+    }))
+      .then(() => {
+        setScreenLoading(false);
+      });
+  }, [storeSelectedCategories]);
 
   const refreshItems = () => {
     setRefreshing(true);
@@ -40,6 +58,10 @@ const Home = () => {
         </View>
       </Pressable>
     );
+  }
+
+  if (screenLoading) {
+    return <HomeSkeleton />;
   }
 
   return (

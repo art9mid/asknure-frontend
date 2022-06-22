@@ -20,6 +20,7 @@ const BASE_URL = process.env.BASE_URL;
 export const userInfoThunk = (googleAuthResponse) => async (dispatch) => {
   dispatch({ type: USER_INFO_ACTION_STARTED });
   try {
+
     //todo: move to env
     const refreshData = {
       client_secret: GOOGLE_CLIENT_SECRET,

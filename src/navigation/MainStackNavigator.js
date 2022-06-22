@@ -12,7 +12,7 @@ import {
   Settings,
   UserPosts,
   UserSettings,
-  AddCategory, CategoriesSettings,
+  AddCategory, CategoriesSettings, EditPost,
 } from '../screens';
 import { HeaderLeftBack, HeaderTitle } from '../components';
 import SearchScreen from '../screens/SearchScreen/SearchScreen';
@@ -126,6 +126,14 @@ function MainStackNavigator() {
         component={CategoriesSettings}
         options={{
           headerTitle: t('Categories'),
+          headerLeft: () => <HeaderLeftBack />,
+        }}
+      />
+      <Stack.Screen
+        name="EditPost"
+        component={EditPost}
+        options={{
+          headerTitle: t('Edit question'),
           headerLeft: () => <HeaderLeftBack />,
         }}
       />

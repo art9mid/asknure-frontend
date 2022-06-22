@@ -27,7 +27,7 @@ function Comment({ item }) {
           {item.author || 'User'}
         </Text>
         {item.text && (
-          <Text style={styles.text}>
+          <Text selectable style={styles.text}>
             {item.text}
           </Text>
         )}

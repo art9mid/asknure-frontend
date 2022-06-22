@@ -19,7 +19,7 @@ const RegisterFlow = () => {
   const handleSingIn = React.useCallback((response) => {
     dispatch(userInfoThunk(response)).then(({ success }) => {
       if (!success) {
-        showErrorNotification('Возникла ошибка!', 'Попробуйте войти снова или чуть позже');
+        showErrorNotification(t('Something went wrong!'), t('Please try again later'));
       }
     });
   }, []);

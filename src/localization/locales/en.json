@@ -70,5 +70,14 @@
   "Banner title 3": "QS Emerging Europe and Central Asia University Rankings",
   "Banner text 3": "Kharkiv National University of Radio Electronics ranked 221-230 in QS Emerging Europe and Central Asia University Rankings!",
   "Banner title 4": "List of Specialties",
-  "Banner text 4": "Dear entrants! We offer to familiarize with the list of specialties and Educational Program of the Kharkov National University of Radio Electronics!"
+  "Banner text 4": "Dear entrants! We offer to familiarize with the list of specialties and Educational Program of the Kharkov National University of Radio Electronics!",
+  "Delete": "Delete",
+  "Update": "Update",
+  "Cancel": "Cancel",
+  "Delete question": "Delete question",
+  "Do you really want to delete this question?": "Do you really want to delete this question?",
+  "Edit question": "Edit question",
+  "Description": "Description",
+  "Post successfully updated": "Post successfully updated",
+  "This category has already been created!": "This category has already been created!"
 }

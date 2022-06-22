@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { FlatList, Share, Text, useColorScheme, View } from 'react-native';
+import { Platform, RefreshControl, ScrollView, Share, Text, useColorScheme, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import dynamicStyles from './styles';
 import PostAnswer from './PostAnswer';
@@ -22,19 +22,25 @@ const Post = (props) => {
   const styles = dynamicStyles(colorSchema);
   const postId = props.route.params.postId;
 
+  const [screenLoading, setScreenLoading] = React.useState(null);
   const [post, setPost] = React.useState(null);
   const loading = useSelector((state) => state.posts.postLoading);
 
+  const fetchPost = () => {
+    return dispatch(fetchPostThunk(postId)).then((response) => {
+      if (response.success && response.data) {
+        setPost(response.data);
+      } else {
+        showErrorNotification(t('Something went wrong!'), t('Please try again later'));
+        navigation.navigate('HomeScreen');
+      }
+    });
+  };
+
   React.useEffect(() => {
     if (postId) {
-      dispatch(fetchPostThunk(postId)).then((response) => {
-        if (response.success && response.data) {
-          setPost(response.data);
-        } else {
-          showErrorNotification(t('Something went wrong!'), t('Please try again later'));
-          navigation.navigate('HomeScreen');
-        }
-      });
+      setScreenLoading(true);
+      fetchPost().then(() => setScreenLoading(false));
     } else {
       navigation.navigate('HomeScreen');
     }
@@ -71,7 +77,7 @@ const Post = (props) => {
     );
   };
 
-  if (loading || !post) {
+  if (screenLoading || !post) {
     return <Loader />;
   }
 
@@ -85,10 +91,13 @@ const Post = (props) => {
           {moment(post.createdAt).format('DD.MM.YYYY')}
         </Text>
       </View>
-      <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'} style={styles.body}>
-        <Text style={styles.postTitle}>{post.title}</Text>
+      <KeyboardAwareScrollView
+        refreshControl={<RefreshControl refreshing={loading} onRefresh={fetchPost} />}
+        keyboardShouldPersistTaps={'handled'} style={styles.body}
+        contentContainerStyle={{ paddingBottom: Platform.OS === 'ios' ? 40 : 0 }}>
+        <Text style={styles.postTitle} selectable>{post.title}</Text>
         {!!post.text.length && (
-          <Text style={styles.text}>{post.text}</Text>
+          <Text style={styles.text} selectable>{post.text}</Text>
         )}
         {!!post?.files?.length && (
           <>

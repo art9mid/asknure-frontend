@@ -58,13 +58,17 @@ const PostAnswer = ({ postId, setPost, post }) => {
             setPost({ ...post, comments: [...post.comments, response.data] });
             formik.resetForm();
           } else {
-            showErrorNotification('Посторите попытку позже', 'При добавлении комментария что-то пошло не так!');
+            showErrorNotification(t('Something went wrong!'), t('Please try again later'));
           }
         });
       },
     },
     'addPostCommentError',
   );
+
+  React.useEffect(() => {
+    formik.setFieldValue('photo', user?.avatar);
+  }, [user]);
 
   React.useEffect(() => {
     if (formik.values.text.trim().length) {

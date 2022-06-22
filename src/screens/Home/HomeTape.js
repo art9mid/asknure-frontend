@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Pressable, Text, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
+import { PostsList } from '../../components';
 import { FilterIcon } from '../../SvgComponents';
 import { LocalizationContext } from '../../localization';
 import { fetchPostsThunk } from '../../redux/thunks/posts';
-import { PostsList, HomeSkeleton } from '../../components';
 
 const HomeTape = ({ page, setPage }) => {
   const navigator = useNavigation();
@@ -19,23 +19,12 @@ const HomeTape = ({ page, setPage }) => {
   const postsByCategories = useSelector((store) => store.posts.postsByCategories);
 
   const postsLoading = useSelector((store) => store.posts.postsLoading);
-  const storeSelectedCategories = useSelector((state) => state.categories.selectedCategories);
-
-  const [screenLoading, setScreenLoading] = React.useState(true);
   const [currentTab, setCurrentTab] = React.useState(0);
 
+  const storeSelectedCategories = useSelector((state) => state.categories.selectedCategories);
+
   React.useEffect(() => {
-    setScreenLoading(true);
-    dispatch(fetchPostsThunk({
-      page: 0,
-      size: 20,
-      refreshing: true,
-      categories: storeSelectedCategories,
-    }))
-      .then(() => {
-        setCurrentTab(0);
-        setScreenLoading(false);
-      });
+    setCurrentTab(0);
   }, [storeSelectedCategories]);
 
   const loadItems = () => {
@@ -51,10 +40,6 @@ const HomeTape = ({ page, setPage }) => {
       screen: 'CategoriesSettings',
     });
   };
-
-  if (screenLoading) {
-    return <HomeSkeleton />;
-  }
 
   return (
     <>

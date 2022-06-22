@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FlatList, ScrollView, useColorScheme, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { FlatList, Image, Modal, ScrollView, useColorScheme, View } from 'react-native';
 import dynamicStyles from './styles';
 import { showErrorNotification } from '../../utils/toast';
-import { fetchPostsThunk } from '../../redux/thunks/posts';
 import { fetchUserPostsThunk } from '../../redux/thunks/user';
-import { NothingToShow, PostsList, QuestionListItemSkeleton } from '../../components';
-import { useNavigation } from '@react-navigation/native';
+import { Loader, NothingToShow, PostsList, QuestionListItemSkeleton } from '../../components';
+import { CHANGE_FIRST_ENTER_USER_QUESTIONS } from '../../redux/actions';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const UserPosts = () => {
   const colorScheme = useColorScheme();
@@ -15,6 +16,8 @@ const UserPosts = () => {
   const navigation = useNavigation();
   const posts = useSelector((store) => store.user.posts);
   const postsLoading = useSelector((store) => store.user.postsLoading);
+  const deletePostLoading = useSelector((store) => store.user.deletePostLoading);
+  const fistEnterUserQuestions = useSelector((store) => store.app.fistEnterUserQuestions);
 
   const [page, setPage] = React.useState(1);
   const [refreshing, setRefreshing] = React.useState(false);
@@ -30,11 +33,11 @@ const UserPosts = () => {
 
   const refreshItems = () => {
     setRefreshing(true);
-    dispatch(fetchPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
+    dispatch(fetchUserPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
       setRefreshing(false);
       setPage(1);
       if (!success) {
-        showErrorNotification('Что-то пошло не так');
+        showErrorNotification(t('Something went wrong!'), t('Please try again later'));
       }
     });
   };
@@ -43,7 +46,7 @@ const UserPosts = () => {
     dispatch(fetchUserPostsThunk({ page: 0, size: 20, refreshing: true })).then(({ success }) => {
       setScreenLoading(false);
       if (!success) {
-        showErrorNotification('Что-то пошло не так');
+        showErrorNotification(t('Something went wrong!'), t('Please try again later'));
         navigation.navigate('Profile');
       }
     });
@@ -52,6 +55,10 @@ const UserPosts = () => {
   if (screenLoading) {
     return <QuestionListItemSkeleton />;
   }
+
+  const onCloseModal = () => {
+    dispatch({ type: CHANGE_FIRST_ENTER_USER_QUESTIONS });
+  };
 
   if (!posts?.content?.length) {
     return (
@@ -71,7 +78,15 @@ const UserPosts = () => {
       onRefresh={refreshItems}
       ListFooterComponent={() => (
         <ScrollView style={styles.container}>
-          <PostsList fetchItems={loadItems} loading={postsLoading} posts={posts} stack={'MainStack'} />
+          {!!posts?.content?.length && (
+            <Modal transparent onRequestClose={onCloseModal} visible={fistEnterUserQuestions}>
+              <Pressable onPress={onCloseModal} style={styles.modal}>
+                <Image source={require('../../../assets/SWIP.gif')} width={100} height={100} />
+              </Pressable>
+            </Modal>
+          )}
+          {deletePostLoading && <Loader opacity />}
+          <PostsList user fetchItems={loadItems} loading={postsLoading} posts={posts} stack={'MainStack'} />
         </ScrollView>
       )}
     />

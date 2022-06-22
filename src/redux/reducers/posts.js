@@ -5,16 +5,19 @@ import {
   ADD_POST_COMMENT_ACTION_FAILED,
   ADD_POST_COMMENT_ACTION_STARTED,
   ADD_POST_COMMENT_ACTION_SUCCESS,
+  DELETE_POST_ACTION_SUCCESS,
   FETCH_POST_ACTION_FAILED,
   FETCH_POST_ACTION_STARTED,
   FETCH_POST_ACTION_SUCCESS,
   FETCH_POSTS_ACTION_FAILED,
   FETCH_POSTS_ACTION_STARTED,
-  FETCH_POSTS_ACTION_SUCCESS, FETCH_SELECTED_POSTS_ACTION_SUCCESS, LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS,
+  FETCH_POSTS_ACTION_SUCCESS,
+  FETCH_SELECTED_POSTS_ACTION_SUCCESS,
+  LOAD_MORE_SEARCH_POSTS_ACTION_SUCCESS,
   REFRESH_POSTS_ACTION_SUCCESS,
   SEARCH_POSTS_ACTION_FAILED,
   SEARCH_POSTS_ACTION_STARTED,
-  SEARCH_POSTS_ACTION_SUCCESS,
+  SEARCH_POSTS_ACTION_SUCCESS, UPDATE_POST_ACTION_SUCCESS,
 } from '../actions';
 
 const initialState = {
@@ -39,6 +42,21 @@ export const posts = (state = initialState, action) => {
 
     case FETCH_SELECTED_POSTS_ACTION_SUCCESS: {
       return { ...state, postsByCategories: action.data };
+    }
+
+    case UPDATE_POST_ACTION_SUCCESS: {
+      const content = state.posts.content.map((item) => {
+        if (item.id === action.data.id) {
+          return action.data;
+        }
+        return item;
+      });
+
+      const posts = {
+        ...action.data,
+        content: content,
+      };
+      return { ...state, posts };
     }
 
     case FETCH_POSTS_ACTION_SUCCESS: {
@@ -134,6 +152,15 @@ export const posts = (state = initialState, action) => {
 
     case ADD_POST_COMMENT_ACTION_FAILED: {
       return { ...state, addCommentLoading: false };
+    }
+
+    case DELETE_POST_ACTION_SUCCESS: {
+      const content = state.posts.content.filter((item) => item.id !== action.id);
+      const posts = {
+        ...action.data,
+        content: content,
+      };
+      return { ...state, posts, deletePostLoading: false };
     }
 
     default: {

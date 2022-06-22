@@ -10,6 +10,11 @@ const styles = (colorScheme) => {
       backgroundColor: colorSet.whiteBackgroundColor,
       paddingVertical: 10,
     },
+    modal: {
+      flex: 1,
+      paddingTop: 10,
+      backgroundColor: 'rgba(142,142,147,0.48)',
+    },
     chairItemContainer: {
       paddingVertical: 8,
       paddingHorizontal: 20,

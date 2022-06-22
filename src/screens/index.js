@@ -12,3 +12,4 @@ export { default as ServerError } from './ServerError/ServerError';
 export { default as Categories } from './Categories/Categories';
 export { default as AddCategory } from './AddCategory/AddCategory';
 export { default as CategoriesSettings } from './CategoriesSettings/CategoriesSettings';
+export { default as EditPost } from './EditPost/EditPost';
